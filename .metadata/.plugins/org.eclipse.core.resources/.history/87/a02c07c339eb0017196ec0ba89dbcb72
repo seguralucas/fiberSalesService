@@ -1,0 +1,136 @@
+package exit.services.principal.peticiones;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import exit.services.convertidor.jsonAJson.ConvertirJsonAJson;
+import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
+import exit.services.fileHandler.CSVHandler;
+import exit.services.singletons.ConfiguracionEntidadParticular;
+import exit.services.singletons.RecEntAct;
+import exit.services.util.json.ConvertidorJson;
+import exit.services.util.json.JsonUtils;
+
+public class GetOracleSales extends AbstractHTTP {
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, String id, int responseCode) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, String id, int responseCode) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, int responseCode) throws Exception {
+		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
+		System.out.println(r.getIterarSobre());
+		JSONArray jArray;
+		if(r.getIterarSobre()!=null){
+			JSONObject json= ConvertidorJson.convertir(in);
+			jArray=(JSONArray)json.get(r.getIterarSobre());
+			
+		}
+		else
+			jArray = ConvertidorJson.convertirArray(in);
+		
+		for(int i=0;i<jArray.size();i++){
+			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,(JSONObject)jArray.get(i));
+			JSONObject resultadoContacto=conv.convertir();
+		}
+		
+		return jArray.size();
+	}
+
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, int responseCode) throws Exception {
+		System.out.println("Error aca");
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, int responseCode)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, String id,
+			int responseCode) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static void main(String[] args) {
+
+	}
+	
+	
+private Object updateRecuperandoIdPorQuery(String parametros, AbstractJsonRestEstructura jsonEst){
+	String idOrder="No obtenido";
+	try{
+	String separador=jsonEst.getConfEntidadPart().getIdentificadorAtributo();
+	int aux;
+	int index = parametros.indexOf(separador);
+	while(index >= 0) {
+	   aux=index;
+	   index = parametros.indexOf(separador, index+1);
+	   if(index>=0){
+		   String key=parametros.substring(aux+1, index);
+		   if(jsonEst.getMapCabeceraValor().get(key)!=null){
+			   parametros=parametros.replaceAll(JsonUtils.reemplazarCorcheteParaRegex(separador+key+separador), jsonEst.getMapCabeceraValor().get(key).toString());
+			   idOrder=jsonEst.getMapCabeceraValor().get(key).toString();
+			   System.out.println("Filtra por: "+key+" con valor: "+jsonEst.getMapCabeceraValor().get(key).toString());
+		   }
+		   index = parametros.indexOf(separador, index+1);
+	   }
+	}
+	GetExistFieldURLQueryRightNow get= new GetExistFieldURLQueryRightNow();
+	String id=(String)get.realizarPeticion(EPeticiones.GET, parametros,null,null,jsonEst.getConfEntidadPart().getCabecera(), jsonEst.getConfEntidadPart());
+	if(id!=null){
+		System.out.println("Se va a actualizar la entidad: "+  jsonEst.getConfEntidadPart().getEntidadNombre()+ "con id: "+id);
+		UpdateGenericoRightNow update= new UpdateGenericoRightNow();
+		return update.realizarPeticion(EPeticiones.UPDATE, jsonEst.getConfEntidadPart().getUrl() , id, jsonEst,jsonEst.getConfEntidadPart().getCabecera(),jsonEst.getConfEntidadPart());
+	}
+	/*System.out.println("Se va a insertar la entidad: "+  jsonEst.getConfEntidadPart().getEntidadNombre());
+		PostGenerico insertar= new PostGenerico();
+		return insertar.realizarPeticion(EPeticiones.POST, jsonEst.getConfEntidadPart().getUrl(), jsonEst,jsonEst.getConfEntidadPart().getCabecera());*/
+	}
+	catch(Exception e){
+		CSVHandler csv= new CSVHandler();
+		try {
+			csv.escribirCSV("errorAlActualizar.csv", idOrder);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+/*			System.out.println("Se va a insertar la entidad: "+  jsonEst.getConfEntidadPart().getEntidadNombre());
+		PostGenerico insertar= new PostGenerico();
+		return insertar.realizarPeticion(EPeticiones.POST, jsonEst.getConfEntidadPart().getUrl(),jsonEst,jsonEst.getConfEntidadPart().getCabecera());			*/
+	}
+	return null;//Borrar al descomentar
+}
+
+}

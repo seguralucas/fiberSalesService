@@ -1,0 +1,9 @@
+{
+	"ContactUniqueName":{
+		"tipo":"cadena",
+		"precioConPunto":"true"
+	},
+	"links.[0].href":{
+		"tipo":"cadena"	
+	}
+}

@@ -1,0 +1,10 @@
+separadorCSV=;
+usaProxy=NO
+ipProxy=10.152.140.252
+puertoProxy=7777
+entidadesAIntegrar=salesContactos, salesCuentas
+
+identificadorAtributo=#
+
+action=csvAservicio
+nivelParalelismo=10

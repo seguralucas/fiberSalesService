@@ -1,0 +1,324 @@
+package com.floreantpos.floorplan;
+
+import com.floreantpos.PosLog;
+import com.floreantpos.bo.ui.BackOfficeWindow;
+import com.floreantpos.extension.FloorLayoutPlugin;
+import com.floreantpos.floorplan.action.ShowBookingAction;
+import com.floreantpos.floorplan.action.ShowFloorsAction;
+import com.floreantpos.floorplan.action.ShowTableTypesBrowserAction;
+import com.floreantpos.floorplan.action.TableBookingBrowserAction;
+import com.floreantpos.floorplan.ui.FloorStatusDisplay;
+import com.floreantpos.floorplan.ui.MapTableSelectionView;
+import com.floreantpos.floorplan.ui.Messages;
+import com.floreantpos.floorplan.ui.ShopTableTypeForm;
+import com.floreantpos.main.Application;
+import com.floreantpos.main.Main;
+import com.floreantpos.model.ShopFloor;
+import com.floreantpos.model.ShopTable;
+import com.floreantpos.model.Ticket;
+import com.floreantpos.model.dao.ShopFloorDAO;
+import com.floreantpos.model.dao.ShopTableDAO;
+import com.floreantpos.swing.PosButton;
+import com.floreantpos.swing.PosUIManager;
+import com.floreantpos.ui.BeanEditor;
+import com.floreantpos.ui.dialog.POSMessageDialog;
+import com.floreantpos.ui.views.SwitchboardOtherFunctionsView;
+import com.floreantpos.util.POSUtil;
+import java.awt.Component;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+import org.apache.commons.io.IOUtils;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+
+
+
+@PluginImplementation
+public class FloorLayoutPluginImpl
+  extends FloorLayoutPlugin
+{
+  public static final String PRODUCT_NAME = "FlorffffeantPOS Floorplan";
+  public static final String PRODUCT_VERSION = "1.3";
+  private boolean initialized = false;
+  
+
+  public FloorLayoutPluginImpl() {}
+  
+
+  public void initConfigurationView(JDialog dialog) {}
+  
+
+  public void openTicketsAndTablesDisplay()
+  {
+    FloorStatusDisplay view = new FloorStatusDisplay();
+    view.setIconImage(Application.getApplicationIcon().getImage());
+    view.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+    view.setVisible(true);
+  }
+  
+  public List<ShopTable> captureTableNumbers(Ticket ticket)
+  {
+    initialize();
+    return null;
+  }
+  
+  public void initialize()
+  {
+    if ((initialized) || (ShopFloorDAO.getInstance().hasFloor())) {
+      return;
+    }
+    
+    int option = POSMessageDialog.showYesNoQuestionDialog(Application.getPosWindow(), Messages.getString("FloorLayoutPluginImpl.0"), Messages.getString("FloorLayoutPluginImpl.1"));
+    
+
+    if (option != 0) {
+      return;
+    }
+    createDefaultFloor();
+    
+    initialized = true;
+  }
+  
+  public void createDefaultFloor()
+  {
+    ShopFloor floor = new ShopFloor();
+    floor.setName("Main Floor");
+    setFloorDefaultImage(floor);
+    
+    List<ShopTable> tableList = ShopTableDAO.getInstance().findAll();
+    
+    if ((tableList != null) && (!tableList.isEmpty()))
+    {
+      for (int i = 0; i < tableList.size(); i++)
+      {
+        ShopTable shopTable = (ShopTable)tableList.get(i);
+        
+        shopTable.setX((Integer)getPositionX().get(i));
+        shopTable.setY((Integer)getPositionY().get(i));
+        
+        ShopTableDAO.getInstance().saveOrUpdate(shopTable);
+        
+        floor.addTotables(shopTable);
+        
+        if (i == 13) {
+          break;
+        }
+        
+      }
+    } else {
+      for (int i = 0; i < getPositionX().size(); i++) {
+        floor.addTotables(new ShopTable(floor, (Integer)getPositionX().get(i), (Integer)getPositionY().get(i), Integer.valueOf(i + 1)));
+      }
+    }
+    
+    Session session = ShopFloorDAO.getInstance().getSession();
+    Transaction transaction = session.beginTransaction();
+    session.saveOrUpdate(floor);
+    transaction.commit();
+    session.close();
+  }
+  
+  private List<Integer> getPositionX()
+  {
+    List<Integer> positionX = new ArrayList();
+    
+    positionX.add(Integer.valueOf(19));
+    positionX.add(Integer.valueOf(161));
+    positionX.add(Integer.valueOf(309));
+    positionX.add(Integer.valueOf(17));
+    positionX.add(Integer.valueOf(162));
+    positionX.add(Integer.valueOf(318));
+    positionX.add(Integer.valueOf(18));
+    positionX.add(Integer.valueOf(161));
+    positionX.add(Integer.valueOf(330));
+    positionX.add(Integer.valueOf(22));
+    positionX.add(Integer.valueOf(169));
+    positionX.add(Integer.valueOf(329));
+    positionX.add(Integer.valueOf(487));
+    positionX.add(Integer.valueOf(661));
+    
+    return positionX;
+  }
+  
+  private List<Integer> getPositionY()
+  {
+    List<Integer> positionY = new ArrayList();
+    
+    positionY.add(Integer.valueOf(12));
+    positionY.add(Integer.valueOf(12));
+    positionY.add(Integer.valueOf(14));
+    positionY.add(Integer.valueOf(132));
+    positionY.add(Integer.valueOf(136));
+    positionY.add(Integer.valueOf(140));
+    positionY.add(Integer.valueOf(258));
+    positionY.add(Integer.valueOf(258));
+    positionY.add(Integer.valueOf(260));
+    positionY.add(Integer.valueOf(382));
+    positionY.add(Integer.valueOf(381));
+    positionY.add(Integer.valueOf(387));
+    positionY.add(Integer.valueOf(391));
+    positionY.add(Integer.valueOf(390));
+    
+    return positionY;
+  }
+  
+  private void setFloorDefaultImage(ShopFloor floor) {
+    InputStream inputStream = null;
+    try {
+      inputStream = getClass().getResourceAsStream("/com/floreantpos/floorlayout/default-floor.png");
+      byte[] byteArray = IOUtils.toByteArray(inputStream);
+      floor.setImageData(byteArray);
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    } finally {
+      IOUtils.closeQuietly(inputStream);
+    }
+  }
+  
+  public void initUI()
+  {
+    SwitchboardOtherFunctionsView otherFunctionsView = SwitchboardOtherFunctionsView.getInstance();
+    JPanel contentPanel = otherFunctionsView.getContentPanel();
+    PosButton btnBooking = new PosButton(new ShowBookingAction());
+    String sizeString = String.valueOf(PosUIManager.getSize(150));
+    contentPanel.add(btnBooking, String.format("w %s!, h %s!", new Object[] { sizeString, sizeString }));
+  }
+  
+  public void initBackoffice()
+  {
+    BackOfficeWindow backOfficeWindow = POSUtil.getBackOfficeWindow();
+    JMenuBar menuBar = backOfficeWindow.getBackOfficeMenuBar();
+    JMenu floorPlanMenu = backOfficeWindow.getFloorPlanMenu();
+    
+    floorPlanMenu.add(new JMenuItem(new ShowFloorsAction()));
+    floorPlanMenu.add(new JMenuItem(new ShowTableTypesBrowserAction()));
+    floorPlanMenu.add(new JMenuItem(new TableBookingBrowserAction()));
+    
+    //floorPlanMenu.add(new JMenuItem(new PluginAboutDialogAction(this, getLicense(), POSUtil.getBackOfficeWindow())));
+    menuBar.add(floorPlanMenu);
+  }
+  
+  public String getId()
+  {
+    return String.valueOf("DefaultFloorLayoutPlugin".hashCode());
+  }
+  
+  public BeanEditor getBeanEditor()
+  {
+    return new ShopTableTypeForm();
+  }
+  
+  public MapTableSelectionView createTableSelector()
+  {
+    checkFloor();
+    MapTableSelectionView mapTableView = new MapTableSelectionView();
+    return mapTableView;
+  }
+  
+  private void checkFloor()
+  {
+    List<ShopFloor> shopFloors = ShopFloorDAO.getInstance().findAll();
+    
+    if ((shopFloors == null) || (shopFloors.isEmpty())) {
+      POSMessageDialog.showMessage(Messages.getString("FloorLayoutPluginImpl.7"));
+      createDefaultFloor();
+    }
+  }
+  
+  public void updateView()
+  {
+    MapTableSelectionView.getInstance().redererTables();
+  }
+  
+
+  public List<AbstractAction> getSpecialFunctionActions()
+  {
+    return null;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  private void timerNotification() {}
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  public void restartPOS(boolean restart)
+  {
+    if (restart) {
+      try {
+        Main.restart();
+      } catch (Exception e) {
+        PosLog.error(getClass(), e);
+      }
+    }
+  }
+  
+  public String getProductName()
+  {
+    return "FloreantPOS Floorplan";
+  }
+  
+  public String getProductVersion()
+  {
+    return "1.3";
+  }
+  
+  public Component getParent()
+  {
+    return POSUtil.getFocusedWindow();
+  }
+}

@@ -1,0 +1,36 @@
+identificadorAtributo=#
+
+filtros=per_page=99&page=#NRO_PAG#
+urlExtraer=https://whirlpool.custhelp.com/services/rest/connect/v1.3/Whirlpool.Compra
+cabeceraExtractora={"Authorization": "Basic ZGFtaWFuLmNhcnJpdmFsZTpEYW1pYW4uY2Fycml2YWxl"}
+
+urlInserInsertar={"Authorization": "Basic ZGFtaWFuLmNhcnJpdmFsZTpEYW1pYW4uY2Fycml2YWxl"}
+
+
+url=http://whirlpoolarg.vtexcommercestable.com.br/api/oms/pvt/orders
+cabecera={       "X-VTEX-API-AppKey" : "Smarino@biactiva.com",       "X-VTEX-API-AppToken" : "Whirlpool2017.",       "Content-Type" : "application/json"     }
+
+
+metodoEjecutor=updateRecuperandoIdPorQuery
+parametroEjecutor=https://fibercorp--tst1.custhelp.com/services/rest/connect/v1.3/queryResults/?query=select%20id%20from%20Whirlpool.Compra%20where%20ordenCompra=%27#orderId#%27
+
+
+
+
+usaProxy=NO
+ipProxy=10.152.140.252
+puertoProxy=8080
+paaginado=true
+
+
+iterarSobre=list
+idIteracion=orderId
+
+salesAService=true
+serviceASales=true
+
+metodoEjecutor=ejecutorServicioAServicioVTEXOMS
+parametroEjecutor=-1
+action=SERVICIOASERVICIO
+nivelParalelismo=10
+subEntidades= compra

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;GetIdsAEliminar.java&apos; to &apos;biactiva/src/main/java/exit.services.principal.peticiones&apos;&#x0D;&#x0A;- Original project: &apos;WhirpoolServices&apos;&#x0D;&#x0A;- Destination element: &apos;biactiva/src/main/java/exit.services.principal.peticiones&apos;&#x0D;&#x0A;- Original element: &apos;GetIdsAEliminar.java&apos;" description="Copy file" destination="=biactiva/src\/main\/java&lt;exit.services.principal.peticiones" element1="integracion/src/exit/services/principal/peticiones/GetIdsAEliminar.java" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1514320333172" units="0" version="1.0"/>
+</session>

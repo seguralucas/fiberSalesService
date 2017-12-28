@@ -1,0 +1,9 @@
+{
+	"ContactUniqueName":{
+		"tipo":"cadena",
+		"precioConPunto":"true"
+	},
+	"orderId":{
+		"tipo":"cadena"	
+	}
+}

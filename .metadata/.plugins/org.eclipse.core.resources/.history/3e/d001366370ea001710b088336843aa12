@@ -1,0 +1,31 @@
+identificadorAtributo=#
+
+
+https://ccda-test.crm.us2.oraclecloud.com/crmCommonApi/resources/11.12.0.0/contacts/?q=LastUpdateDate>2015-12-20T03:32:55%2B00:00;LastUpdateDate<2017-03-28T23:32:55%2B00:00
+filtros=q=LastUpdateDate>#FECHA_DESDE#;LastUpdateDate<#FECHA_HASTA#&offset=#OFFSET#&limit=#LIMIT#
+limit=500
+urlExtraer=https://ccda-test.crm.us2.oraclecloud.com/crmCommonApi/resources/11.12.0.0/contacts
+cabeceraExtraer={"Authorization": "Basic TFNFR1VSQTpGaWJlcjEyMzQ="}
+
+
+url=http://whirlpoolarg.vtexcommercestable.com.br/api/oms/pvt/orders
+cabeceraInsertar={"Authorization": "Basic ZGFtaWFuLmNhcnJpdmFsZTpEYW1pYW4uY2Fycml2YWxl"}
+
+
+metodoEjecutor=updateRecuperandoIdPorQuery
+
+
+
+
+usaProxy=NO
+ipProxy=10.152.140.252
+puertoProxy=8080
+paaginado=true
+
+
+iterarSobre=items
+idIteracion=
+
+metodoEjecutor=ejecutorSalesAService
+action=SERVICIOASERVICIO
+nivelParalelismo=10
