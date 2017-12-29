@@ -11,3 +11,14 @@
 1514397084885	Delete element
 1514402007833	Delete element
 1514402028931	Delete element
+1514452132813	Copy folder
+1514519828579	Rename field 'fechaDesde'
+1514519837177	Rename field 'fechaHasta'
+1514519893491	Rename method 'getFechaDesde'
+1514519899497	Rename method 'setFechaDesde'
+1514519907957	Rename method 'getFechaHasta'
+1514521500210	Rename field 'fechaHastaService'
+1514521513332	Rename method 'initFechaHastaService'
+1514523976629	Rename type 'GetSalesListaEntidad'
+1514527359529	Delete element
+1514527362339	Delete element

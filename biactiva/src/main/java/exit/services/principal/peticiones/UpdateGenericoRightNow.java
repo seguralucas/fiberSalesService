@@ -17,6 +17,12 @@ import exit.services.singletons.RecEntAct;
 public class UpdateGenericoRightNow extends AbstractHTTP{
 
 
+
+
+	public UpdateGenericoRightNow(EPeticiones peticion, String url, JSONObject cabecera) {
+		super(peticion, url, cabecera);
+	}
+
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
 			throws Exception {

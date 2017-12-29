@@ -1,68 +1,76 @@
 package exit.services.principal.peticiones;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
 import exit.services.fileHandler.CSVHandler;
+import exit.services.fileHandler.ConstantesGenerales;
+import exit.services.fileHandler.DirectorioManager;
 import exit.services.singletons.ApuntadorDeEntidad;
 import exit.services.singletons.ConfiguracionEntidadParticular;
 import exit.services.singletons.RecEntAct;
 import exit.services.singletons.entidadesARecuperar.IPeticiones;
 import exit.services.singletons.entidadesARecuperar.Peticion;
 import exit.services.singletons.entidadesARecuperar.RecuperadorPeticiones;
+import exit.services.util.json.JsonUtils;
 
 public abstract class AbstractHTTP {
 	public static final String PROPIEDADES_EXTRA="propiedadesExtras";
+	protected EPeticiones peticion;
+	protected String url;
+	protected JSONObject cabecera;
 
-//	@Deprecated
-//	public Object realizarPeticion(EPeticiones httpMetodo,JSONObject cabecera){
-//		return realizarPeticion(httpMetodo,RecEntAct.getInstance().getCep().getUrl(),null,null,cabecera,null);
-//	}
-//	
-//	public Object realizarPeticion(EPeticiones httpMetodo, AbstractJsonRestEstructura json,JSONObject cabecera,ConfiguracionEntidadParticular conf){
-//		return realizarPeticion(httpMetodo,RecEntAct.getInstance().getCep().getUrl(),null,json,cabecera,conf);
-//	}
-//	public Object realizarPeticion(EPeticiones httpMetodo, AbstractJsonRestEstructura json,JSONObject cabecera){
-//		return realizarPeticion(httpMetodo,RecEntAct.getInstance().getCep().getUrl(),null,json,cabecera,null);
-//	}
 
-	public Object realizarPeticion(EPeticiones httpMetodo,String url,JSONObject cabecera, ConfiguracionEntidadParticular conf){
-		return realizarPeticion(httpMetodo,url,null,null,cabecera,conf);
+	public AbstractHTTP(EPeticiones peticion, String url,JSONObject cabecera){
+		this.peticion=peticion;
+		this.url=url;
+		this.cabecera=cabecera;
 	}
 	
-	public Object realizarPeticion(EPeticiones httpMetodo,String url,JSONObject cabecera){
-		return realizarPeticion(httpMetodo,url,null,null,cabecera,null);
+	
+	public Object realizarPeticion(){
+		return realizarPeticion(null,null,null);
 	}
 		
-	public Object realizarPeticion(EPeticiones httpMetodo, String url, AbstractJsonRestEstructura json,JSONObject cabecera, ConfiguracionEntidadParticular conf){
-		 return realizarPeticion(httpMetodo,url,null,json,cabecera,conf);
-	 }
-	public Object realizarPeticion(EPeticiones httpMetodo, String url, AbstractJsonRestEstructura json,JSONObject cabecera){
-		 return realizarPeticion(httpMetodo,url,null,json,cabecera,null);
+	public Object realizarPeticion(AbstractJsonRestEstructura json){
+		 return realizarPeticion(null,json,null);
 	 }
 	 
-	public Object realizarPeticion(EPeticiones httpMetodo, String url,String id,JSONObject cabecera, ConfiguracionEntidadParticular conf){
-		 return realizarPeticion(httpMetodo,url,id,null,cabecera,conf);
-	}
-	public Object realizarPeticion(EPeticiones httpMetodo, String url,String id,JSONObject cabecera){
-		 return realizarPeticion(httpMetodo,url,id,null,cabecera,null);
+	public Object realizarPeticion(String id){
+		 return realizarPeticion(id,null,null);
 	}
 	
-	public Object realizarPeticion(EPeticiones httpMetodo, String url,String id,AbstractJsonRestEstructura json, JSONObject cabecera, ConfiguracionEntidadParticular conf){
+	public Object realizarPeticion(String id,AbstractJsonRestEstructura json){
+		 return realizarPeticion(id,json,null);
+	}
+
+	public Object realizarPeticion(String id,String parametros){
+		 return realizarPeticion(id,null,parametros);
+	}
+	public Object realizarPeticion(AbstractJsonRestEstructura json, String parametros){
+		 return realizarPeticion(null,json,parametros);
+	}
+	
+	public Object realizarPeticion(String id,AbstractJsonRestEstructura json, String parametros){
 	        try{
-	            Peticion pet= conf==null?RecuperadorPeticiones.getInstance().getPeticion(httpMetodo):conf.getPeticiones().getPeticion(httpMetodo);
+	            Peticion pet=RecuperadorPeticiones.getInstance().getPeticion(this.peticion);
 	        	WSConector ws;
-	        	if(id!=null)
-	        		 ws = new WSConector(httpMetodo,url+"/"+id,cabecera,pet);
-	        	else
-	        		 ws = new WSConector(httpMetodo,url,cabecera,pet);
+	        	String urlFinal=this.url+(id==null?"":"/"+id)+(parametros==null?"":"?"+parametros);
+	        	System.out.println(urlFinal);
+	        	ws = new WSConector(this.peticion,urlFinal,this.cabecera,pet);
+
 	        	HttpURLConnection conn=ws.getConexion();
 	        	if(json!=null){
 		        	DataOutputStream wr = new DataOutputStream(
@@ -123,12 +131,56 @@ public abstract class AbstractHTTP {
       }
 	
 	abstract protected Object procesarPeticionOK(BufferedReader in, String id,int responseCode) throws Exception;
-	abstract protected Object procesarPeticionError(BufferedReader in, String id, int responseCode) throws Exception;
 	abstract protected  Object procesarPeticionOK(BufferedReader in, int responseCode) throws Exception;
-	abstract protected Object procesarPeticionError(BufferedReader in, int responseCode) throws Exception;
 	abstract protected  Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception;
-	abstract protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json,int responseCode) throws Exception;
 	abstract protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id,int responseCode) throws Exception;
-	abstract protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode) throws Exception;
 
+	protected Object procesarPeticionError(BufferedReader in, String id, int responseCode) throws Exception{
+		String path=("error_"+this.peticion.getAccion()+"_servidor_codigo_"+responseCode+".txt");
+	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(path);
+	    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fichero, true)));
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+         	out.println(inputLine);
+        }
+        out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
+        out.close();
+        return null;
+	}
+	
+	protected Object procesarPeticionError(BufferedReader in, int responseCode) throws Exception{
+		return this.procesarPeticionError(in, (String)null, responseCode);
+	}
+	
+	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json,int responseCode) throws Exception{
+		return this.procesarPeticionError(in, json, null, responseCode);
+    }
+	
+	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode) throws Exception{
+		String path=("error_"+this.peticion.getAccion()+"_servidor_codigo_"+responseCode+".txt");
+	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(path);
+	    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fichero, true)));
+        out.println(json.toString());
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+         	out.println(inputLine);
+        }
+        out.println(ConstantesGenerales.SEPARADOR_ERROR_JSON);
+        CSVHandler csvHandler = new CSVHandler();
+        csvHandler.escribirCSV("error_update_servidor_codigo_"+responseCode+".csv",json);            
+        out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
+        out.close();
+        return null;	
+	}
+	
+	protected JSONArray getJsonArrayDondeIterar(String ubicacionIteracion, BufferedReader in) throws Exception{
+		JSONArray jArray;
+		if(ubicacionIteracion!=null){
+			JSONObject json= JsonUtils.convertir(in);
+			jArray=(JSONArray)json.get(ubicacionIteracion);
+		}
+		else
+			jArray = JsonUtils.convertirArray(in);
+		return jArray;
+	}
 }

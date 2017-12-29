@@ -12,7 +12,6 @@ import exit.services.singletons.RecEntAct;
 import exit.services.singletons.entidadesARecuperar.IPeticiones;
 import exit.services.singletons.entidadesARecuperar.Peticion;
 import exit.services.singletons.entidadesARecuperar.RecuperadorPeticiones;
-import exit.services.util.json.ConvertidorJson;
 import exit.services.util.json.JsonUtils;
 
 

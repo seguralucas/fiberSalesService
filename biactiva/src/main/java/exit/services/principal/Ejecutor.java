@@ -18,6 +18,7 @@ import exit.services.principal.peticiones.AbstractHTTP;
 import exit.services.principal.peticiones.EPeticiones;
 import exit.services.principal.peticiones.GetExistFieldURLQueryRightNow;
 import exit.services.principal.peticiones.GetOracleSales;
+import exit.services.principal.peticiones.GetServiceListaEntidad;
 import exit.services.principal.peticiones.PostGenerico;
 import exit.services.principal.peticiones.UpdateGenericoRightNow;
 import exit.services.singletons.ApuntadorDeEntidad;
@@ -33,19 +34,30 @@ public class Ejecutor {
 	
 	public Object ejecutorSalesAService(){
 		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
-		AbstractHTTP get= new GetOracleSales();
-		String urlConParametros=r.getUrlExtraer().replaceAll(r.getIdentificadorAtributo()+""+r.getIdentificadorAtributo(), ManejadorDateAPI.getInstance().getFechaDesde());
 		String identificadorAtr=r.getIdentificadorAtributo();
 		
 		
 		String parametrosUrl=r.getFiltros().replaceAll(identificadorAtr+"LIMIT"+identificadorAtr, String.valueOf(r.getLimit()));
 		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"OFFSET"+identificadorAtr, String.valueOf((r.getPaginaActual()-1)*r.getLimit()));
-		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_DESDE"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaDesde() );
-		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_HASTA"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaHasta());
-		String urlFinal=r.getUrlExtraer()+"?"+parametrosUrl;
-		System.out.println(urlFinal);	
-		return get.realizarPeticion(EPeticiones.GET,urlFinal,RecEntAct.getInstance().getCep().getCabeceraExtraer());		
+		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_DESDE"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaDesdeSales() );
+		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_HASTA"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaHastaSales());
+		AbstractHTTP get= new GetOracleSales(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		return get.realizarPeticion(null,null,parametrosUrl);		
 	}
+	
+	public Object ejecutorServiceASales(){
+		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
+		String identificadorAtr=r.getIdentificadorAtributo();		
+		String parametrosUrl=r.getFiltros().replaceAll(identificadorAtr+"LIMIT"+identificadorAtr, String.valueOf(r.getLimit()));
+		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"OFFSET"+identificadorAtr, String.valueOf((r.getPaginaActual()-1)*r.getLimit()));
+		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_DESDE"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaDesdeService() );
+		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_HASTA"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaHastaService());
+		AbstractHTTP get= new GetServiceListaEntidad(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+
+		return get.realizarPeticion(null,null,parametrosUrl);		
+	}
+	
+	
 	
 	
 	private void escribirExcepcion(Exception e, AbstractJsonRestEstructura jsonEst){

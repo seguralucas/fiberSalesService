@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
+import org.json.simple.JSONObject;
+
 import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
 import exit.services.fileHandler.CSVHandler;
 import exit.services.fileHandler.DirectorioManager;
@@ -14,7 +16,12 @@ import exit.services.fileHandler.ConstantesGenerales;
 public class EliminarGenerico extends AbstractHTTP {
 	
 	
-	
+
+
+	public EliminarGenerico(EPeticiones peticion, String url, JSONObject cabecera) {
+		super(peticion, url, cabecera);
+	}
+
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, String id,int responseCode) throws Exception{
 		CSVHandler csv= new CSVHandler();
@@ -48,24 +55,12 @@ public class EliminarGenerico extends AbstractHTTP {
 	}
 
 	@Override
-	protected Object procesarPeticionError(BufferedReader in, int responseCode) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception {
@@ -73,10 +68,5 @@ public class EliminarGenerico extends AbstractHTTP {
 		return null;
 	}
 
-	@Override
-	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }

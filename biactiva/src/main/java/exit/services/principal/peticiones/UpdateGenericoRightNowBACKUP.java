@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
+import org.json.simple.JSONObject;
+
 import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
 import exit.services.fileHandler.CSVHandler;
 import exit.services.fileHandler.ConstantesGenerales;
@@ -14,6 +16,10 @@ import exit.services.singletons.RecEntAct;
 
 public class UpdateGenericoRightNowBACKUP extends AbstractHTTP{
 
+
+	public UpdateGenericoRightNowBACKUP(EPeticiones peticion, String url, JSONObject cabecera) {
+		super(peticion, url, cabecera);
+	}
 
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)

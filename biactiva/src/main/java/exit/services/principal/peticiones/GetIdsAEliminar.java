@@ -21,10 +21,15 @@ import exit.services.fileHandler.DirectorioManager;
 import exit.services.fileHandler.ConstantesGenerales;
 import exit.services.singletons.ApuntadorDeEntidad;
 import exit.services.singletons.RecEntAct;
-import exit.services.util.json.ConvertidorJson;
 import exit.services.util.json.JsonUtils;
 
 public class GetIdsAEliminar extends AbstractHTTP{
+
+
+
+	public GetIdsAEliminar(EPeticiones peticion, String url, JSONObject cabecera) {
+		super(peticion, url, cabecera);
+	}
 
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, String id, int responseCode) throws Exception {
@@ -42,7 +47,7 @@ public class GetIdsAEliminar extends AbstractHTTP{
 	protected Object procesarPeticionOK(BufferedReader in, int responseCode) throws Exception {
 		JSONObject jsonObject = JsonUtils.convertir(in);
 		JSONArray jsonArrayItems= (JSONArray) jsonObject.get(("items"));
-		EliminarGenerico e= new EliminarGenerico();
+		EliminarGenerico e= new EliminarGenerico(EPeticiones.DELETE,this.url,RecEntAct.getInstance().getCep().getCabeceraInsertar());
 		Integer resultado=jsonArrayItems.size();
 		ExecutorService workers = Executors.newFixedThreadPool(RecEntAct.getInstance().getCep().getNivelParalelismo());      	
 	    List<Callable<Void>> tasks = new ArrayList<>();
@@ -53,7 +58,7 @@ public class GetIdsAEliminar extends AbstractHTTP{
     		JSONObject jsonItem;
 			jsonItem=(JSONObject)jsonArrayItems.get(j);
 			Long id=(Long)jsonItem.get("id");
-			e.realizarPeticion(EPeticiones.DELETE, String.valueOf(id),RecEntAct.getInstance().getCep().getCabeceraInsertar());
+			e.realizarPeticion(String.valueOf(id));
 			return null;
 		        }
 			});
@@ -88,24 +93,12 @@ public class GetIdsAEliminar extends AbstractHTTP{
 	}
 
 	@Override
-	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
 			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+
 
 }

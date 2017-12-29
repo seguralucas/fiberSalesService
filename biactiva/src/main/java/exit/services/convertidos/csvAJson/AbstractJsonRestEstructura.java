@@ -36,6 +36,11 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		mapCabeceraValor= new HashMap<String, Object>();
 	}
 	
+	public AbstractJsonRestEstructura(JSONObject json) throws Exception {
+		super(JsonUtils.convertir(json.toString()));
+		mapCabeceraValor= new HashMap<String, Object>();
+	}
+	
 	public HashMap<String, Object> getMapCabeceraValor(){
 		return mapCabeceraValor;
 	}

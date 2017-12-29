@@ -16,6 +16,11 @@ import exit.services.singletons.RecEntAct;
 
 public class PostGenericoBACKUP extends AbstractHTTP{
 
+
+	public PostGenericoBACKUP(EPeticiones peticion, String url, JSONObject cabecera) {
+		super(peticion, url, cabecera);
+	}
+
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception {
 		CSVHandler csv= new CSVHandler();

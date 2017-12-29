@@ -7,7 +7,6 @@ import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
 import exit.services.convertidos.csvAJson.JSONFiber;
 import exit.services.singletons.ConfiguracionEntidadParticular;
 import exit.services.util.json.JsonUtils;
-import exit.services.util.json.RecorrerJson;
 
 public class ConvertirJsonAJson {
 	
@@ -20,7 +19,7 @@ public class ConvertirJsonAJson {
 		this.obtenedorDeDatos=obtenedorDeDatos;
 	}
 	
-	public JSONObject convertir() throws Exception{
+	public AbstractJsonRestEstructura convertir() throws Exception{
 		jsonAbstract= new JSONFiber(configEnt);
 		for(Object key:configEnt.getRecuperadorPropiedadesJson().getJsonPropiedades().keySet()){
 			try{
@@ -33,7 +32,7 @@ public class ConvertirJsonAJson {
 					jsonAbstract.agregarCampo(key.toString(), (String)o);
 			}catch(Exception e){}
 		}
-		return jsonAbstract.getJsonFormato();
+		return jsonAbstract;
 	}
 
 	public AbstractJsonRestEstructura getJsonAbstract() {

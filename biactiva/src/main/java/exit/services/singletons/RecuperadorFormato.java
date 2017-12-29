@@ -15,7 +15,6 @@ import org.json.simple.JSONObject;
 import exit.services.fileHandler.CSVHandler;
 import exit.services.fileHandler.ConstantesGenerales;
 import exit.services.procesadorJson.IProcesadorJson;
-import exit.services.util.json.ConvertidorJson;
 import exit.services.util.json.JsonUtils;
 
 public class RecuperadorFormato {
