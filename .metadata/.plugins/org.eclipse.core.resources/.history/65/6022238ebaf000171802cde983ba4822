@@ -1,0 +1,13 @@
+{ 
+    "emails":[{"address":"#EmailAddress#", "addressType":{"id":0}}],
+    "phones":[{"number":"#MobileNumber#","phoneType":{"id":0}},{"number":"#WorkPhoneNumber#","phoneType":{"id":1}}],
+"customFields": {
+        "CO": {
+            "AdicionalesEnUso": "#DNI#"
+        }
+    },
+	    "name": {
+        "first": "#FirstName#",
+        "last": "#LastName#"
+    }
+}

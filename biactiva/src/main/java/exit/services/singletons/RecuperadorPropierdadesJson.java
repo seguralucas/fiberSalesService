@@ -19,6 +19,7 @@ public class RecuperadorPropierdadesJson {
 	private HashMap<String, JSONObject> mapCabeceraJson;
 	public static final String PROPIEDAD_TIPO="tipo";
 	public static final String PROPIEDAD_BORRAR_SI_ES_NULL="borrarSiEsNull";
+	public static final String PROPIEDAD_GET_ID_FROM_URL="getIdFromUrl";
 	public static final String PROPIEDAD_BORRAR_CAR_NO_NUMERICOS="borrarCarNoNumericos";
 	public static final String PROPIEDAD_REEMPLAZAR_CAR_ESPANOL="reemplazarCarEspanol";
 	public static final String PROPIEDAD_VALOR_POR_DEFAULT="valorPorDefault";
@@ -108,6 +109,12 @@ public class RecuperadorPropierdadesJson {
 		return aux;
 	}
 	
+	public JSONObject getIdFromUrl(String key){
+		JSONObject j= this.getPropiedades(key);
+		JSONObject aux=j==null?null:(JSONObject)j.get(PROPIEDAD_GET_ID_FROM_URL);
+		return aux;
+	}
+	
 	public JSONObject getValoresPermitidos(String key){
 		JSONObject j= this.getPropiedades(key);
 		JSONObject aux=j==null?null:(JSONObject)j.get(PROPIEDAD_VALORES_PERMITIDOS);
@@ -132,6 +139,12 @@ public class RecuperadorPropierdadesJson {
 	public boolean isBorrarSiEsNull(String key){
 		JSONObject j= this.getPropiedades(key);
 		Object aux=j==null?null:j.get(PROPIEDAD_BORRAR_SI_ES_NULL);
+		return aux!=null;
+	}
+	
+	public boolean isGetIdFromUrl(String key){
+		JSONObject j= this.getPropiedades(key);
+		Object aux=j==null?null:j.get(PROPIEDAD_GET_ID_FROM_URL);
 		return aux!=null;
 	}
 	

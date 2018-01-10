@@ -19,7 +19,6 @@ public class DirectorioManager {
 	
 	private static final String NOMBRE_TEMP="temp";
 	public static void SepararFicheros(File archivo) throws IOException{
-    				CSVHandler csv= new CSVHandler();
 		    		String line="";
 			    		try(BufferedReader br = new BufferedReader(
 			    		         new InputStreamReader(
@@ -32,7 +31,7 @@ public class DirectorioManager {
 			    				CSVHandler.cabeceraFichero=line;			    									    		
 			    			}
 			    			else{
-				    			csv.escribirCSV(DirectorioManager.getDirectorioFechaYHoraInicioDivision(NOMBRE_TEMP+i+".csv"),line,true);
+			    				CSVHandler.getInstance().escribirCSV(DirectorioManager.getDirectorioFechaYHoraInicioDivision(NOMBRE_TEMP+i+".csv"),line,true);
 			    				if(i>=RecEntAct.getInstance().getCep().getNivelParalelismo()-1)
 			    					i=0;
 			    				else
@@ -76,6 +75,8 @@ public class DirectorioManager {
 	public static String getPathFechaYHoraInicioDivision() throws IOException{
 		return getPathFechaYHoraInicioDivision(RecEntAct.getInstance().getCep());
 	}
+	
+	
 	public static String getPathFechaYHoraInicioDivision(ConfiguracionEntidadParticular conf) throws IOException{
 		File file = new File(getEntidadFecha(conf));
 		if(!file.exists())

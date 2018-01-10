@@ -1,0 +1,13 @@
+{
+	"customFields.CO.DNI":{
+		"tipo":"entero"
+	},
+		"name.first":{
+		"tipo":"cadena",		
+	},
+		"name.last":{
+		"tipo":"cadena"
+		
+
+}
+}

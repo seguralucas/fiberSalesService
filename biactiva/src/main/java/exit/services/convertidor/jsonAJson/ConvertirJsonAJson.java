@@ -5,6 +5,8 @@ import org.json.simple.JSONObject;
 
 import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
 import exit.services.convertidos.csvAJson.JSONFiber;
+import exit.services.fileHandler.CSVHandler;
+import exit.services.fileHandler.ConstantesGenerales;
 import exit.services.singletons.ConfiguracionEntidadParticular;
 import exit.services.util.json.JsonUtils;
 
@@ -30,7 +32,11 @@ public class ConvertirJsonAJson {
 				}
 				else
 					jsonAbstract.agregarCampo(key.toString(), (String)o);
-			}catch(Exception e){}
+			}catch(Exception e){
+//				e.printStackTrace();
+				CSVHandler.getInstance().escribirErrorException(e);
+				System.out.println(e.getMessage());
+			}
 		}
 		return jsonAbstract;
 	}

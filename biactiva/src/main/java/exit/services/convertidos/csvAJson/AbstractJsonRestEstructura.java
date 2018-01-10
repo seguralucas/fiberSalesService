@@ -1,6 +1,7 @@
 package exit.services.convertidos.csvAJson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,6 +11,10 @@ import org.json.simple.JSONObject;
 
 import exit.services.fileHandler.CSVHandler;
 import exit.services.fileHandler.ConstantesGenerales;
+import exit.services.principal.peticiones.AbstractHTTP;
+import exit.services.principal.peticiones.EPeticiones;
+import exit.services.principal.peticiones.GetExistFieldURLQueryRightNow;
+import exit.services.principal.peticiones.GetExistsFieldInSales;
 import exit.services.procesadorJson.IProcesadorJson;
 import exit.services.procesadorJson.JsonProcesarReemplazo;
 import exit.services.singletons.ApuntadorDeEntidad;
@@ -52,7 +57,11 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 	protected void insertarValorJson(String cabecera, String valor){ 
 
 		Object valorAlterado=alterarValor(cabecera,valor);
-		//this.dataJson=this.dataJson.replaceAll("#"+cabecera+"#", alterarValor(cabecera,valor));
+		if(valorAlterado!=null && RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().isGetIdFromUrl(cabecera)){
+			valorAlterado=getIdFromUrl(valorAlterado,cabecera);
+			if(valorAlterado!=null)
+				System.out.println("sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--");
+		}
 		if(valorAlterado==null && RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().isBorrarSiEsNull(cabecera))
 			borrarKey(cabecera);
 		else{
@@ -102,7 +111,6 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		final String PATH_ERROR="error_formato_fecha.csv";
 		if(valor==null || valor.length()==0)
 			return null;
-		CSVHandler csv= new CSVHandler();
 		String[] fecha=valor.split("/");
 		if(fecha.length==3){
 			try{
@@ -110,7 +118,7 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 			}
 			catch(Exception e){
 				try {
-					csv.escribirCSV(PATH_ERROR, this.getLine());
+					CSVHandler.getInstance().escribirCSV(PATH_ERROR, this.getLine());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -128,6 +136,45 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		
 	}
 	
+	
+	private HashMap<String, ArrayList<Integer>> indiciesBorrados= new HashMap<>();
+	private Integer indiceRelativoAOtrosBorrados(String key,Integer indice){
+		if(!indiciesBorrados.containsKey(key)){
+			ArrayList<Integer> listaIndices= new ArrayList<>();
+			listaIndices.add(indice);
+			indiciesBorrados.put(key, listaIndices);
+			return indice;
+		}
+		ArrayList<Integer> listaIndices=indiciesBorrados.get(key);
+		listaIndices.add(indice);
+		Integer resultado= new Integer(indice);
+		for(Integer aux:listaIndices){
+			if(indice.compareTo(aux)>0){
+				resultado--;
+			}
+		}
+		return resultado;
+	}
+	protected Object getIdFromUrl(Object valor, String cabecera){
+		try{
+			JSONObject json=RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().getIdFromUrl(cabecera);
+			String identificador=RecEntAct.getInstance().getCep().getIdentificadorAtributo();
+			String url= json.get("url").toString();
+			String claseExtractora= json.get("claseExtractora").toString();
+			JSONObject cabeceraPeticion= JsonUtils.convertir(json.get("cabecera").toString());
+			url=url.replaceAll(identificador+cabecera+identificador, valor.toString());
+			AbstractHTTP get=null;
+			if(claseExtractora.equalsIgnoreCase("GetExistFieldURLQueryRightNow"))
+					get= new GetExistFieldURLQueryRightNow(EPeticiones.GET, url, cabeceraPeticion);
+		//	System.out.println(get.realizarPeticion());
+			return get.realizarPeticion();
+		}catch(Exception e){
+			e.printStackTrace();
+			CSVHandler.getInstance().escribirErrorException("warning_procesamiento.txt",e);
+			return null;
+		}
+	}
+
 	protected void borrarKey(String cabecera){
 		try{ 
 		if(RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().isBorrarSiEsNull(cabecera)){
@@ -137,8 +184,14 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 			for(int i=0;i<recorrido.length;i++){
 				if(i+1==recorrido.length){
 					if(recorrido[i].matches(".*\\[[0-9]\\]$")){
-						auxArray=(JSONArray)aux.get(recorrido[i].substring(0, recorrido[i].length()-3));
-						auxArray.remove(Character.getNumericValue(recorrido[i].charAt(recorrido[i].length() - 2)));
+						String key=recorrido[i].substring(0, recorrido[i].indexOf("["));
+						Integer indice=Integer.parseInt(recorrido[i].substring(recorrido[i].indexOf("[")+1,recorrido[i].indexOf("]")));
+						auxArray=(JSONArray)aux.get(key);
+						indice= indiceRelativoAOtrosBorrados(key,indice);
+						auxArray.remove((indice.intValue()));
+						if(auxArray.size()==0)
+							aux.remove(key);
+						
 					}
 					else
 						aux.remove(recorrido[i]);
@@ -155,13 +208,12 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			CSVHandler csv= new CSVHandler();
 			try{
-				csv.escribirCSV("error_borrar_key.txt", "Error al intentar eliminar llave por valor nulo");
-				csv.escribirCSV("error_borrar_key.txt", "Elemento causante: "+cabecera);
-				csv.escribirCSV("error_borrar_key.txt", "Valor: "+RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().getBorrarSiEsNull(cabecera));
-				csv.escribirCSV("error_borrar_key.txt", "Operacion sobre el registro no detenida");
-				csv.escribirCSV("error_borrar_key.txt", ConstantesGenerales.SEPARADOR_ERROR_TRYCATCH);
+				CSVHandler.getInstance().escribirCSV("error_borrar_key.txt", "Error al intentar eliminar llave por valor nulo");
+				CSVHandler.getInstance().escribirCSV("error_borrar_key.txt", "Elemento causante: "+cabecera);
+				CSVHandler.getInstance().escribirCSV("error_borrar_key.txt", "Valor: "+RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().getBorrarSiEsNull(cabecera));
+				CSVHandler.getInstance().escribirCSV("error_borrar_key.txt", "Operacion sobre el registro no detenida");
+				CSVHandler.getInstance().escribirCSV("error_borrar_key.txt", ConstantesGenerales.SEPARADOR_ERROR_TRYCATCH);
 			}
 			catch(Exception a){
 				a.printStackTrace();
@@ -231,6 +283,7 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		valor=borrarCaracteresNoNumericos(cabecera,valor);
 		if(valor==null || valor.length()==0)
 			return null;
+		
 		return Long.parseLong(valor.trim());
 	}
 	
@@ -298,7 +351,9 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		return this;
 	}
 
-	
+	public static void main(String[] args) {
+		System.out.println(new Integer(0).compareTo(new Integer(2)));
+	}
 	
 	
 }

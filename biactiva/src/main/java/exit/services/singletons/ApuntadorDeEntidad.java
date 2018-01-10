@@ -35,17 +35,7 @@ public class ApuntadorDeEntidad {
     		return false;
     	puntero++;
     	RecEntAct.getInstance().reiniciar();
-    	switch(RecEntAct.getInstance().getCep().getAction().toUpperCase()){
-		case ConfiguracionEntidadParticular.ACCION_CSVASERVICIO:
-				AlmacenadorFechaYHora.reiniciar();
-	    	break;
-		case ConfiguracionEntidadParticular.ACCION_SERVICIOAACSV:
-			AlmacenadorFechaYHora.reiniciar();
-		break;
-		case ConfiguracionEntidadParticular.ACCION_SERVICIOASERVICIO:
-			AlmacenadorFechaYHora.reiniciar();
-		break;
-	}    	
+		AlmacenadorFechaYHora.reiniciar();
     	return true;
     	
     }

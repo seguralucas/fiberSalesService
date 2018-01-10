@@ -1,11 +1,19 @@
 package exit.services.util.json;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
+import exit.services.fileHandler.CSVHandler;
+import exit.services.fileHandler.ConstantesGenerales;
+import exit.services.fileHandler.DirectorioManager;
 import exit.services.singletons.ConfiguracionEntidadParticular;
 import exit.services.singletons.RecEntAct;
 import exit.services.singletons.RecuperadorPropierdadesJson;
@@ -109,11 +117,25 @@ public class JsonUtils {
 		   index = cadena.indexOf(separador, index+1);
 		   if(index>=0){
 			   String key=cadena.substring(aux+1, index);
+			   if(JsonUtils.getValue(key, json)==null)
+				   return null;
 			   cadena=cadena.replaceAll(separador+key+separador, JsonUtils.getValue(key, json).toString());
 			   index = cadena.indexOf(separador, index+1);
 		   }
 		}		
 		return cadena;
 	}
-
+	
+	public static void escribirJson(String path, AbstractJsonRestEstructura json){
+	    try(FileWriter fw = new FileWriter(path, true);
+	    	    BufferedWriter bw = new BufferedWriter(fw);
+	    	    PrintWriter out = new PrintWriter(bw))
+	    	{
+	    		out.write(json.toStringSinEnter());
+	    	} catch (IOException e) {
+	    		CSVHandler.getInstance().escribirErrorException(e);
+	    	}     
+	}
+	
+	
 }

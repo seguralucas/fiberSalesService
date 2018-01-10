@@ -12,16 +12,16 @@ import org.json.simple.JSONObject;
 import exit.services.fileHandler.CSVHandler;
 import exit.services.fileHandler.ConstantesGenerales;
 import exit.services.fileHandler.DirectorioManager;
+import exit.services.principal.peticiones.EPeticiones;
+import exit.services.principal.peticiones.GetExistFieldURLQueryRightNow;
 import exit.services.singletons.entidadesARecuperar.IPeticiones;
 import exit.services.singletons.entidadesARecuperar.PeticionEntidad;
 import exit.services.singletons.entidadesARecuperar.RecuperadorPeticiones;
 import exit.services.singletons.entidadesARecuperar.SFTPPropiedades;
+import exit.services.util.ManejadorDateAPI;
 import exit.services.util.json.JsonUtils;
 
 public class ConfiguracionEntidadParticular {
-	public static final String ACCION_CSVASERVICIO="CSVASERVICIO";
-	public static final String ACCION_SERVICIOAACSV="SERVICIOAACSV";
-	public static final String ACCION_SERVICIOASERVICIO="SERVICIOASERVICIO";
 	public static final String OUTPUT_FILE_DEFAULT="salida.csv";
 	public static final String OUTPUT_PATH_DEFAULT=".";
 	
@@ -72,7 +72,14 @@ public class ConfiguracionEntidadParticular {
     	}  	
     	System.out.println("Identificador de Atributo: "+this.getIdentificadorAtributo());
 	}
-    	
+    	public String getParametrosUrl(){
+    		String identificadorAtr=this.getIdentificadorAtributo();		
+    		String parametrosUrl=this.getFiltros().replaceAll(identificadorAtr+"LIMIT"+identificadorAtr, String.valueOf(this.getLimit()));
+    		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"OFFSET"+identificadorAtr, String.valueOf((this.getPaginaActual()-1)*this.getLimit()));
+    		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_DESDE"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaDesdeService() );
+    		parametrosUrl=parametrosUrl.replaceAll(identificadorAtr+"FECHA_HASTA"+identificadorAtr, ManejadorDateAPI.getInstance().getFechaHastaService());
+    		return parametrosUrl;
+    	}
 
 	  private String getValueMap(String key){
 	    	return mapPropiedades.get(key);
@@ -115,8 +122,10 @@ public class ConfiguracionEntidadParticular {
 			return getValueMap("metodoPreEjecutor");
 		}
 		
-		public String getUrlVerificarExistencia() {
-			return getValueMap("urlVerificarExistencia");
+		public String getUrlVerificarExistencia(JSONObject jsonReemplazo) {
+			if(getValueMap("urlVerificarExistencia")==null)
+				return null;
+			return JsonUtils.reemplazarJsonEnString(getValueMap("urlVerificarExistencia"), jsonReemplazo);
 		}
 
 		public String getParametroPreEjecutor() {
@@ -306,14 +315,7 @@ public class ConfiguracionEntidadParticular {
 		}
 
 
-		public IPeticiones getPeticiones(){
-			try{
-				return PeticionEntidad.getInstance(entidadNombre);
-			}
-			catch(Exception e){
-				return RecuperadorPeticiones.getInstance();
-			}
-		}
+	
 		public boolean isBorrarDataSetAlFinalizar() {
 			String borrarDataSetAlFinalizar=getValueMap("borrarDataSetAlFinalizar");
 			if(borrarDataSetAlFinalizar==null)

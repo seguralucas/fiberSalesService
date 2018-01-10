@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import exit.services.singletons.RecEntAct;
 import exit.services.singletons.entidadesARecuperar.IPeticiones;
 import exit.services.singletons.entidadesARecuperar.Peticion;
+import exit.services.singletons.entidadesARecuperar.PeticionEntidad;
 import exit.services.singletons.entidadesARecuperar.RecuperadorPeticiones;
 import exit.services.util.json.JsonUtils;
 
@@ -25,13 +26,13 @@ public class WSConector {
 	 public WSConector(EPeticiones httpMethod,String url,JSONObject cabecera, Peticion peticion) throws Exception{
 		 this.url = new URL(url);
 		 if(peticion==null)
-			 peticion=RecuperadorPeticiones.getInstance().getPeticion(httpMethod);
+			 peticion=PeticionEntidad.getInstance().getPeticion(httpMethod);
 		 initConecction(httpMethod,peticion,cabecera);
 	 }	 	
 	 
 	 public WSConector(EPeticiones httpMethod,String url,JSONObject cabecera) throws Exception{
 		 this.url = new URL(url);
-		 initConecction(httpMethod,RecuperadorPeticiones.getInstance().getPeticion(httpMethod),cabecera);
+		 initConecction(httpMethod,PeticionEntidad.getInstance().getPeticion(httpMethod),cabecera);
 	 }	 	
 	 public WSConector(EPeticiones httpMethod,String url) throws Exception{
 		 	this(httpMethod,url,null);

@@ -25,11 +25,12 @@ public class GetServiceListaEntidad extends AbstractHTTP{
 		ConfiguracionEntidadParticular r = RecEntAct.getInstance().getCep();
 		ConvertirJsonAJson conv= new ConvertirJsonAJson(r,json);
 		AbstractJsonRestEstructura jsonRest= conv.convertir();
-		String url=JsonUtils.reemplazarJsonEnString(r.getUrlVerificarExistencia(),json);
+		System.out.println(jsonRest);
+		String url=r.getUrlVerificarExistencia(json);
+		if(url==null)
+			return null;
 		GetExistsFieldInSales get = new GetExistsFieldInSales(EPeticiones.GET, url, r.getCabeceraInsertar());
-		String idSales= (String)get.realizarPeticion();
-		System.out.println(idSales);
-		return null;
+		return get.realizarPeticion();
 	}
 
 	@Override
@@ -38,9 +39,9 @@ public class GetServiceListaEntidad extends AbstractHTTP{
 		JSONArray json=super.getJsonArrayDondeIterar(r.getIterarSobre(), in);
 		for(int i=0;i<json.size();i++){
 			Long id = (Long)((JSONObject)(json.get(i))).get("id");
-			this.realizarPeticion(String.valueOf(id));
+			String idSales=(String)this.realizarPeticion(String.valueOf(id));
 		}
-		return 0;
+		return json.size();
 	}
 
 	@Override

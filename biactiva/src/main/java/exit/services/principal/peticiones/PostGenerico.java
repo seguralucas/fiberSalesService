@@ -26,7 +26,6 @@ public class PostGenerico extends AbstractHTTP{
 
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception {
-		CSVHandler csv= new CSVHandler();
 	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(json.getConfEntidadPart(), CSVHandler.PATH_INSERTADOS_OK);
         String inputLine;
         boolean marca = true; //Recuperamos el ID
@@ -43,7 +42,7 @@ public class PostGenerico extends AbstractHTTP{
         	cabecera=CSVHandler.cabeceraFichero;
        	else
        		cabecera=json.getCabeceraCSV();
-        csv.escribirCSV(fichero, id+RecEntAct.getInstance().getCep().getSeparadorCSV()+json.getLine(), "ID"+RecEntAct.getInstance().getCep().getSeparadorCSV()+cabecera,true);        
+        CSVHandler.getInstance().escribirCSV(fichero, id+RecEntAct.getInstance().getCep().getSeparadorCSV()+json.getLine(), "ID"+RecEntAct.getInstance().getCep().getSeparadorCSV()+cabecera,true);        
         JSONObject propiedadesExtra=(JSONObject)json.getJson().get(PROPIEDADES_EXTRA);
         if(propiedadesExtra==null)
         	propiedadesExtra= new JSONObject();
@@ -69,13 +68,12 @@ public class PostGenerico extends AbstractHTTP{
         out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
         out.close();
 
-        CSVHandler csvHandler = new CSVHandler();
         String cabecera;
         if(json.getCabeceraCSV()==null)//Esta validacion es sólo por algo que quedo viejo cuando va de CSV a Servicio
         	cabecera=CSVHandler.cabeceraFichero;
        	else
        		cabecera=json.getCabeceraCSV();
-        csvHandler.escribirCSV("error_insercion_servidor_codigo_"+responseCode+".csv", json.getConfEntidadPart() ,RecEntAct.getInstance().getCep().getSeparadorCSV()+json.getLine(), "ID"+RecEntAct.getInstance().getCep().getSeparadorCSV()+cabecera,true);                
+        CSVHandler.getInstance().escribirCSV("error_insercion_servidor_codigo_"+responseCode+".csv", json.getConfEntidadPart() ,RecEntAct.getInstance().getCep().getSeparadorCSV()+json.getLine(), "ID"+RecEntAct.getInstance().getCep().getSeparadorCSV()+cabecera,true);                
         return null;
 	 }
 

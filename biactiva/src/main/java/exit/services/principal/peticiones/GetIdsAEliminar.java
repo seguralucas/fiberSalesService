@@ -79,8 +79,7 @@ public class GetIdsAEliminar extends AbstractHTTP{
          	out.println(inputLine);
         }
         out.println(ConstantesGenerales.SEPARADOR_ERROR_JSON);
-        CSVHandler csvHandler = new CSVHandler();
-        csvHandler.escribirCSV("error_recuperacion_servidor_codigo_"+responseCode+".csv", "No se pudo recuerar informacion de la entidad: "+ApuntadorDeEntidad.getInstance().getEntidadActual(),false);            
+        CSVHandler.getInstance().escribirCSV("error_recuperacion_servidor_codigo_"+responseCode+".csv", "No se pudo recuerar informacion de la entidad: "+ApuntadorDeEntidad.getInstance().getEntidadActual(),false);            
         out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
         out.close();	
         return null;

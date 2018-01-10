@@ -24,9 +24,8 @@ public class EliminarGenerico extends AbstractHTTP {
 
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, String id,int responseCode) throws Exception{
-		CSVHandler csv= new CSVHandler();
 	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(CSVHandler.PATH_BORRADOS_OK);
-        csv.escribirCSV(fichero, "Id eliminado: "+id);
+	    CSVHandler.getInstance().escribirCSV(fichero, "Id eliminado: "+id);
         return null;
 	}
 
@@ -41,8 +40,7 @@ public class EliminarGenerico extends AbstractHTTP {
          	out.println(inputLine);
         }
         out.println(ConstantesGenerales.SEPARADOR_ERROR_JSON);
-        CSVHandler csvHandler = new CSVHandler();
-        csvHandler.escribirCSV("error_borrado_servidor_codigo_"+responseCode+".csv", "No se pudo borrar id: "+id,false);            
+        CSVHandler.getInstance().escribirCSV("error_borrado_servidor_codigo_"+responseCode+".csv", "No se pudo borrar id: "+id,false);            
         out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
         out.close();
         return null;

@@ -24,9 +24,8 @@ public class UpdateGenericoRightNowBACKUP extends AbstractHTTP{
 	@Override
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
 			throws Exception {
-		CSVHandler csv= new CSVHandler();
 	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(CSVHandler.PATH_UPDATES_OK);
-        csv.escribirCSV(fichero, id+RecEntAct.getInstance().getCep().getSeparadorCSV()+json.getLine(), "ID"+RecEntAct.getInstance().getCep().getSeparadorCSV()+CSVHandler.cabeceraFichero,true);        
+	    CSVHandler.getInstance().escribirCSV(fichero, id+RecEntAct.getInstance().getCep().getSeparadorCSV()+json.getLine(), "ID"+RecEntAct.getInstance().getCep().getSeparadorCSV()+CSVHandler.cabeceraFichero,true);        
         return null;		
 	}
 
@@ -42,8 +41,7 @@ public class UpdateGenericoRightNowBACKUP extends AbstractHTTP{
          	out.println(inputLine);
         }
         out.println(ConstantesGenerales.SEPARADOR_ERROR_JSON);
-        CSVHandler csvHandler = new CSVHandler();
-        csvHandler.escribirCSV("error_update_servidor_codigo_"+responseCode+".csv",json);            
+        CSVHandler.getInstance().escribirCSV("error_update_servidor_codigo_"+responseCode+".csv",json);            
         out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
         out.close();
         return null;	

@@ -30,6 +30,7 @@ public class JsonGenerico extends AbstractJsonRestEstructura{
 			case RecuperadorPropierdadesJson.TIPO_FECHA: return procesarFecha(cabecera,valor);
 			case RecuperadorPropierdadesJson.TIPO_ENTERO: return procesarEntero(cabecera,valor);
 			case RecuperadorPropierdadesJson.TIPO_CADENA: return  procesarCadena(cabecera,valor);
+
 			default: return valor;
 		}
 	}
@@ -72,8 +73,7 @@ public class JsonGenerico extends AbstractJsonRestEstructura{
 					}
 				}
 				if(!valorPermitido){
-					CSVHandler csv= new CSVHandler();
-					csv.escribirCSVErrorValidacion(line,"El valor: "+entry.getValue()+" no esta permitido para el atributo: "+entry.getKey());
+					CSVHandler.getInstance().escribirCSVErrorValidacion(line,"El valor: "+entry.getValue()+" no esta permitido para el atributo: "+entry.getKey());
 					return false;
 				}
 			}

@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 
+import exit.services.fileHandler.CSVHandler;
 import exit.services.fileHandler.ConstantesGenerales;
 import exit.services.principal.peticiones.EPeticiones;
+import exit.services.singletons.RecEntAct;
 
 public class PeticionEntidad implements IPeticiones{
-	private static PeticionEntidad instance;
+	private static PeticionEntidad instance=null;
 
 	HashMap<EPeticiones, Peticion> peticion;
     private PeticionEntidad(String nombreEntidad) throws FileNotFoundException, IOException{
@@ -31,12 +33,15 @@ public class PeticionEntidad implements IPeticiones{
     }
 
 	public synchronized static IPeticiones getInstance() {
-		return RecuperadorPeticiones.getInstance();
+		if(instance==null)
+			try {
+				instance= new PeticionEntidad(RecEntAct.getInstance().getCep().getEntidadNombre());
+			} catch (Exception e) {
+				CSVHandler.getInstance().escribirErrorException(e);
+			}
+		return instance;
     }
 
-	public synchronized static IPeticiones getInstance(String nombre) throws FileNotFoundException, IOException {
-    	return instance=new PeticionEntidad(nombre);	
-    }
 
 
 	public Peticion getPeticion(EPeticiones ePeticion){

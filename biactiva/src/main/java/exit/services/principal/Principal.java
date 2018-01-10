@@ -48,7 +48,7 @@ public class Principal {
 						cantRegistros=(Integer)e.ejecutar(r.getMetodoEjecutor(),r.getParametroEjecutor());
 						r.incresePaginaActual();
 						}
-					catch(Exception ex){CSVHandler csv= new CSVHandler(); csv.escribirErrorException("Error en entidad: "+ApuntadorDeEntidad.getInstance().getEntidadActual(), ex.getStackTrace(),true);}
+					catch(Exception ex){CSVHandler.getInstance().escribirErrorException("Error en entidad: "+ApuntadorDeEntidad.getInstance().getEntidadActual(), ex,true);}
 				}
 			}
 			else

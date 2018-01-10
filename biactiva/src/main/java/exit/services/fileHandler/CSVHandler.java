@@ -26,7 +26,17 @@ public class CSVHandler {
 	public static final String PATH_BORRADOS_OK="borradosOK.csv";
 	public static final String PATH_LOG_GENERICO="log.txt";
 	
-
+	private static CSVHandler instance;
+	
+	private CSVHandler(){}
+	
+	public static synchronized CSVHandler getInstance(){
+		if(instance==null)
+			instance=new CSVHandler();
+		return instance;
+	}
+	
+	
 		public static synchronized void crearCabecer(File file,String cabecera)  throws IOException{
             if(!file.exists() || file.length() == 0){
             		CsvWriter csvOutput = new CsvWriter(new FileWriter(file, true), RecEntAct.getInstance().getCep().getSeparadorCSVREGEX().charAt(0));
@@ -89,9 +99,6 @@ public class CSVHandler {
 		 public void escribirCSV(String path,String line,boolean cabeceraDefecto) throws IOException{
 			 	escribirCSV(DirectorioManager.getDirectorioFechaYHoraInicio(path),line,cabeceraDefecto);
 		 }
-		 public void escribirCSV(String path,AbstractJsonRestEstructura json) throws IOException{
-			 escribirCSV(DirectorioManager.getDirectorioFechaYHoraInicio(path),json.getLine(),true);
-		 }
 		 
 /*		 private void insertarCampoVacio(CsvWriter csvOutput) throws IOException{
         	 csvOutput.write(insertarNoNull(""));
@@ -115,30 +122,37 @@ public class CSVHandler {
 			 return "";
 		 }
 		 
-		 public synchronized void escribirErrorException(StackTraceElement[] stackArray) {
-			 escribirErrorException((String)null,stackArray,false);
+		 public synchronized void escribirErrorException(Exception e) {
+			 escribirErrorException(null,(String)null,e,false);
+		 }
+		 public synchronized void escribirErrorException(String fileName,Exception e) {
+			 escribirErrorException(fileName,(String)null,e,false);
 		 }
 		 
-		 public synchronized void escribirErrorException(AbstractJsonRestEstructura json,StackTraceElement[] stackArray) {
-			 escribirErrorException(json.getLine(),stackArray,true);
+		 public synchronized void escribirErrorException(String Line,Exception e,boolean logueaEnCsv) {
+			 escribirErrorException(null,Line,e,logueaEnCsv);
 		 }
+
 		 public synchronized void escribirErrorException(String linea) {
-			 escribirErrorException(linea,null,false);
+			 escribirErrorException(null,linea,null,false);
 		 }
-		 public synchronized void escribirErrorException(String line,StackTraceElement[] stackArray,boolean logueaEnCsv) {
+		 public synchronized void escribirErrorException(String fileName,String line,Exception e,boolean logueaEnCsv) {
+			 fileName=fileName==null?PATH_ERROR_EXCEPTION_LOG:fileName;
 				try {
 					if(line!=null){
 						if(logueaEnCsv)
 							this.escribirCSV(PATH_ERROR_EXCEPTION,line);
-						this.escribirCSV(PATH_ERROR_EXCEPTION_LOG,line);
+						this.escribirCSV(fileName,line);
 					}
-					if(stackArray!=null)
-						for(StackTraceElement ste: stackArray){
-						     this.escribirCSV(PATH_ERROR_EXCEPTION_LOG,"FileName: "+ste.getFileName()+" Metodo: "+ste.getMethodName()+"Clase "+ste.getClassName()+" Linea "+ste.getLineNumber(),false);
+					if(e!=null)
+						if(e.getMessage()!=null)
+							this.escribirCSV(fileName,e.getMessage(),false);
+						for(StackTraceElement ste: e.getStackTrace()){
+						     this.escribirCSV(fileName,"FileName: "+ste.getFileName()+" Metodo: "+ste.getMethodName()+"Clase "+ste.getClassName()+" Linea "+ste.getLineNumber(),false);
 						}		
-					this.escribirCSV(PATH_ERROR_EXCEPTION_LOG,ConstantesGenerales.SEPARADOR_ERROR_TRYCATCH);
-					} catch (IOException e) {
-					e.printStackTrace();
+					this.escribirCSV(fileName,ConstantesGenerales.SEPARADOR_ERROR_TRYCATCH);
+					} catch (IOException e2) {
+					e2.printStackTrace();
 				}
 	 }
 }

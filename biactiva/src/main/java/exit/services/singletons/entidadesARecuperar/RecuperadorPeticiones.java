@@ -12,7 +12,7 @@ import exit.services.fileHandler.DirectorioManager;
 import exit.services.principal.peticiones.EPeticiones;
 import exit.services.singletons.RecuperadorPropiedadesConfiguracionGenerales;
 
-
+@Deprecated
 public class RecuperadorPeticiones implements IPeticiones{
 	HashMap<String, Peticion> mapPeticiones;
 	private static RecuperadorPeticiones instance;

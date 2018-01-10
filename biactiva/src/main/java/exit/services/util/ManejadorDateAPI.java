@@ -23,7 +23,7 @@ public class ManejadorDateAPI {
 	private String fechaDesdeService;
 	private String fechaHastaService;
 	private File f= new File(ConstantesGenerales.PATH_HORA_ULTIMA_EJECUCION);
-	private SimpleDateFormat dateFormatEnArchivo=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private SimpleDateFormat dateFormatEnArchivo=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	private ManejadorDateAPI(){
 		String line;
@@ -63,7 +63,7 @@ public class ManejadorDateAPI {
 
 	private void initFechaHastaSales() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat dateFormat2 = new SimpleDateFormat("hh:mm:ss");
+		DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
 		this.fechaHastaSales=dateFormat.format(this.fechaHasta)+"T"+dateFormat2.format(this.fechaHasta)+"%2B00:00";
 	}
 	
@@ -72,7 +72,7 @@ public class ManejadorDateAPI {
 		try {
 			date = dateFormatEnArchivo.parse(line);
 			DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dateFormat3 = new SimpleDateFormat("hh:mm:ss");
+			DateFormat dateFormat3 = new SimpleDateFormat("HH:mm:ss");
 			this.fechaDesdeSales=dateFormat2.format(date)+"T"+dateFormat3.format(date)+"%2B00:00";
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class ManejadorDateAPI {
 	
 	private void initFechaHastaService() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat dateFormat2 = new SimpleDateFormat("hh:mm:ss");
+		DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
 		this.fechaHastaService=dateFormat.format(this.fechaHasta)+"T"+dateFormat2.format(this.fechaHasta)+"Z";
 	}
 	
@@ -90,7 +90,7 @@ public class ManejadorDateAPI {
 		try {
 			date = dateFormatEnArchivo.parse(line);
 			DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dateFormat3 = new SimpleDateFormat("hh:mm:ss");
+			DateFormat dateFormat3 = new SimpleDateFormat("HH:mm:ss");
 			this.fechaDesdeService=dateFormat2.format(date)+"T"+dateFormat3.format(date)+"Z";
 		} catch (ParseException e) {
 			e.printStackTrace();

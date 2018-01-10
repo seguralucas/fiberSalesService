@@ -45,8 +45,7 @@ public class SFTP {
 
 	} catch (Exception e) {
 	    e.printStackTrace();
-	    CSVHandler csv= new CSVHandler();
-	    csv.escribirErrorException(e.getStackTrace());
+	    CSVHandler.getInstance().escribirErrorException(e);
 	}
 	}
 

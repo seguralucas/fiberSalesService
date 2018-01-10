@@ -39,9 +39,12 @@ public class GetOracleSales extends AbstractHTTP {
 		for(int i=0;i<jArray.size();i++){
 			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,(JSONObject)jArray.get(i));
 			AbstractJsonRestEstructura resultadoContacto=conv.convertir();
-			String url=JsonUtils.reemplazarJsonEnString(r.getUrlVerificarExistencia(),(JSONObject)jArray.get(i));
-			GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(EPeticiones.GET,url,r.getCabeceraInsertar());
-			String id=(String)get.realizarPeticion();
+			String urlVerificarExistencia=r.getUrlVerificarExistencia((JSONObject)jArray.get(i));
+			String id=null;
+			if(url!=null){
+				GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(EPeticiones.GET,urlVerificarExistencia,r.getCabeceraInsertar());
+				id=(String)get.realizarPeticion();
+			}
 			if(id==null){
 				System.out.println("Insertando...");
 				PostGenerico post= new PostGenerico(EPeticiones.POST,r.getUrlInsertar(),r.getCabeceraInsertar());

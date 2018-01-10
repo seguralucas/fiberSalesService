@@ -1,0 +1,12 @@
+{
+	"PersonDEO_NDocumento_c":{
+		"tipo":"entero"
+	},
+		"name.first":{
+		"tipo":"cadena",		
+	},
+		"name.last":{
+		"tipo":"cadena"
+		
+
+}

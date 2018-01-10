@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -23,6 +26,7 @@ import exit.services.singletons.ConfiguracionEntidadParticular;
 import exit.services.singletons.RecEntAct;
 import exit.services.singletons.entidadesARecuperar.IPeticiones;
 import exit.services.singletons.entidadesARecuperar.Peticion;
+import exit.services.singletons.entidadesARecuperar.PeticionEntidad;
 import exit.services.singletons.entidadesARecuperar.RecuperadorPeticiones;
 import exit.services.util.json.JsonUtils;
 
@@ -30,6 +34,7 @@ public abstract class AbstractHTTP {
 	public static final String PROPIEDADES_EXTRA="propiedadesExtras";
 	protected EPeticiones peticion;
 	protected String url;
+	protected String urlUltimaPeticion;
 	protected JSONObject cabecera;
 
 
@@ -65,11 +70,11 @@ public abstract class AbstractHTTP {
 	
 	public Object realizarPeticion(String id,AbstractJsonRestEstructura json, String parametros){
 	        try{
-	            Peticion pet=RecuperadorPeticiones.getInstance().getPeticion(this.peticion);
+	            Peticion pet=PeticionEntidad.getInstance().getPeticion(this.peticion);
 	        	WSConector ws;
-	        	String urlFinal=this.url+(id==null?"":"/"+id)+(parametros==null?"":"?"+parametros);
-	        	System.out.println(urlFinal);
-	        	ws = new WSConector(this.peticion,urlFinal,this.cabecera,pet);
+	        	urlUltimaPeticion=this.url+(id==null?"":"/"+id)+(parametros==null?"":"?"+parametros);
+	        	System.out.println(urlUltimaPeticion);
+	        	ws = new WSConector(this.peticion,urlUltimaPeticion,this.cabecera,pet);
 
 	        	HttpURLConnection conn=ws.getConexion();
 	        	if(json!=null){
@@ -103,19 +108,25 @@ public abstract class AbstractHTTP {
 		            	in = new BufferedReader(
 			                    new InputStreamReader(conn.getErrorStream()));
 	            	}
-	            	if(id!=null)
-	            		o=procesarPeticionError(in,id,responseCode);
-	            	else if( json!=null)
-	            		o=procesarPeticionError(in,json,responseCode);
-	            	else 
-	            		o=procesarPeticionError(in,responseCode);
+	            	if(id!=null){
+	            		if(json!=null)
+	            			o=procesarPeticionError(in, json, id,responseCode);
+	            		else
+	            			o=procesarPeticionError(in, id,responseCode);
+	            	}
+	            	else{
+	            		if(json!=null)
+	            			o=procesarPeticionError(in, json, responseCode);
+	            		else
+	            			o=procesarPeticionError(in, responseCode);
+	            	}
+	            	
 	            }
 	            return o;	 
 	            }	                
           catch (ConnectException e) {
-				CSVHandler csv= new CSVHandler();
 				try {
-					csv.escribirCSV(CSVHandler.PATH_ERROR_SERVER_NO_ALCANZADO, url+"/"+id==null?"":id);
+					CSVHandler.getInstance().escribirCSV(CSVHandler.PATH_ERROR_SERVER_NO_ALCANZADO, url+"/"+id==null?"":id);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -123,9 +134,8 @@ public abstract class AbstractHTTP {
 			}
           catch (Exception e) {
         	  e.printStackTrace();
-				CSVHandler csv= new CSVHandler();
 				if(id!=null)
-					csv.escribirErrorException("Error al realizar request "+ url+"/"+id==null?"":id+" de la entidad "+ApuntadorDeEntidad.getInstance().getEntidadActual(),e.getStackTrace(),false);
+					CSVHandler.getInstance().escribirErrorException("Error al realizar request "+ url+"/"+id==null?"":id+" de la entidad "+ApuntadorDeEntidad.getInstance().getEntidadActual(),e,false);
 				return null;
 			}
       }
@@ -136,10 +146,11 @@ public abstract class AbstractHTTP {
 	abstract protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id,int responseCode) throws Exception;
 
 	protected Object procesarPeticionError(BufferedReader in, String id, int responseCode) throws Exception{
-		String path=("error_"+this.peticion.getAccion()+"_servidor_codigo_"+responseCode+".txt");
+		String path=(ConstantesGenerales.reemplazarArrobas(ConstantesGenerales.PATH_ERROR_HTTP_TXT, this.peticion.getAccion(),String.valueOf(responseCode)));		
 	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(path);
 	    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fichero, true)));
         String inputLine;
+        out.println(this.urlUltimaPeticion);
         while ((inputLine = in.readLine()) != null) {
          	out.println(inputLine);
         }
@@ -157,22 +168,29 @@ public abstract class AbstractHTTP {
     }
 	
 	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode) throws Exception{
-		String path=("error_"+this.peticion.getAccion()+"_servidor_codigo_"+responseCode+".txt");
+		String path=(ConstantesGenerales.reemplazarArrobas(ConstantesGenerales.PATH_ERROR_HTTP_TXT, this.peticion.getAccion(),String.valueOf(responseCode)));
 	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(path);
 	    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fichero, true)));
         out.println(json.toString());
+        out.println(ConstantesGenerales.SEPARADOR_ERROR_JSON);
+	    out.println(urlUltimaPeticion);
+        out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
          	out.println(inputLine);
         }
-        out.println(ConstantesGenerales.SEPARADOR_ERROR_JSON);
-        CSVHandler csvHandler = new CSVHandler();
-        csvHandler.escribirCSV("error_update_servidor_codigo_"+responseCode+".csv",json);            
         out.println(ConstantesGenerales.SEPARADOR_ERROR_PETICION);
         out.close();
+        if(json.getLine()!=null)
+        	CSVHandler.getInstance().escribirCSV(ConstantesGenerales.reemplazarArrobas(ConstantesGenerales.PATH_ERROR_HTTP_CSV, this.peticion.getAccion(),String.valueOf(responseCode)),json.getLine());            
+        else{
+        	String nombre=(ConstantesGenerales.reemplazarArrobas(ConstantesGenerales.PATH_ERROR_HTTP_JSONS, this.peticion.getAccion(),String.valueOf(responseCode)));
+    	    path = DirectorioManager.getDirectorioFechaYHoraInicio(nombre).getAbsolutePath();
+    	    JsonUtils.escribirJson(path, json);
+    	}
         return null;	
 	}
-	
+		
 	protected JSONArray getJsonArrayDondeIterar(String ubicacionIteracion, BufferedReader in) throws Exception{
 		JSONArray jArray;
 		if(ubicacionIteracion!=null){

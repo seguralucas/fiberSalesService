@@ -1,0 +1,132 @@
+package exit.services.principal.peticiones;
+
+import java.io.BufferedReader;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import exit.services.convertidor.jsonAJson.ConvertirJsonAJson;
+import exit.services.convertidos.csvAJson.AbstractJsonRestEstructura;
+import exit.services.singletons.ConfiguracionEntidadParticular;
+import exit.services.singletons.RecEntAct;
+import exit.services.singletons.RecuperadorPropierdadesJson;
+import exit.services.util.json.JsonUtils;
+
+public class GetOracleSalesContacts extends AbstractHTTP {
+
+
+
+
+	public GetOracleSalesContacts(EPeticiones peticion, String url, JSONObject cabecera) {
+		super(peticion, url, cabecera);
+	}
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, String id, int responseCode) throws Exception {
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, String id, int responseCode) throws Exception {
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, int responseCode) throws Exception {
+		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
+		JSONArray jArray= super.getJsonArrayDondeIterar(r.getIterarSobre(), in);
+		
+		for(int i=0;i<jArray.size();i++){
+			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,(JSONObject)jArray.get(i));
+			AbstractJsonRestEstructura resultadoContacto=conv.convertir();
+			GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(EPeticiones.GET,r.getUrlVerificarExistencia(),r.getCabeceraInsertar());
+			String idContacto=(String)get.realizarPeticion();
+			if(idContacto!=null){
+				PostGenerico post= new PostGenerico(EPeticiones.POST,r.getUrlInsertar(),r.getCabeceraInsertar());
+				post.realizarPeticion( resultadoContacto );
+			}
+			else{
+				GetGenerico getGenerico = new GetGenerico(EPeticiones.GET, r.getUrlInsertar(), r.getCabeceraInsertar());
+				String tipoContacto=(String)resultadoContacto.get("PersonDEO_TipoDeContacto_c");
+				JSONObject jsonContacto=(JSONObject)getGenerico.realizarPeticion(idContacto);
+
+				
+			}
+			System.out.println(resultadoContacto);
+			System.out.println("************");
+		}
+		
+		return jArray.size();
+	}
+	
+	private JSONObject addContactType(String tipoContacto, JSONObject jsonContacto){
+		if(tipoContacto==null)
+			return jsonContacto;
+		Long idContactType=mapeoContactTypeSalesAService(tipoContacto);
+		JSONObject contactType=(JSONObject)jsonContacto.get("contactType");
+		if(contactType==null){
+			contactType.put("id", idContactType);
+			return jsonContacto;
+		}
+		JSONObject contact_type2=(JSONObject)jsonContacto.get("contact_type2");
+		if(contact_type2==null){
+			contactType.put("id", idContactType);
+			return jsonContacto;
+		}
+		JSONObject contact_type3=(JSONObject)jsonContacto.get("contact_type3");
+		if(contact_type3==null){
+			contactType.put("id", idContactType);
+			return jsonContacto;
+		}
+	}
+	
+	private Long mapeoContactTypeSalesAService(String contactType){
+		if(contactType.equalsIgnoreCase("TIPOC1"))
+			return 1L;
+		else if(contactType.equalsIgnoreCase("TIPOC2"))
+			return 2L;
+		else if(contactType.equalsIgnoreCase("TIPOC3"))
+			return 3L;
+		else if(contactType.equalsIgnoreCase("TIPOC4"))
+			return 4L;
+		else if(contactType.equalsIgnoreCase("TIPOC5"))
+			return 5L;
+		return null;
+	}
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, int responseCode) throws Exception {
+		System.out.println("Error aca");
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode)
+			throws Exception {
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, int responseCode)
+			throws Exception {
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
+			throws Exception {
+		return null;
+	}
+
+	@Override
+	protected Object procesarPeticionError(BufferedReader in, AbstractJsonRestEstructura json, String id,
+			int responseCode) throws Exception {
+		return null;
+	}
+
+
+	
+	
+
+	
+
+}
