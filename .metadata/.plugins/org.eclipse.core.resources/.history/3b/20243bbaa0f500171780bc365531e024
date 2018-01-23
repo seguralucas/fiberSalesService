@@ -1,0 +1,10 @@
+package biactiva.services.ejecutores;
+
+public class SalesAServiceCuentas implements IEjecutores{
+
+	@Override
+	public Object ejecutar(String parametros) {
+
+		return null;
+	}
+}

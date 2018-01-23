@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;biactiva.services.singletons.ConfiguracionEntidadParticular.getIdIteracion()&apos; to &apos;getIdExtraccion&apos;&#x0D;&#x0A;- Original project: &apos;biactiva&apos;&#x0D;&#x0A;- Original element: &apos;biactiva.services.singletons.ConfiguracionEntidadParticular.getIdIteracion()&apos;&#x0D;&#x0A;- Renamed element: &apos;biactiva.services.singletons.ConfiguracionEntidadParticular.getIdExtraccion()&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;getIdIteracion&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src\/main\/java&lt;biactiva.services.singletons{ConfiguracionEntidadParticular.java[ConfiguracionEntidadParticular~getIdIteracion" name="getIdExtraccion" references="true" stamp="1516720931054" version="1.0"/>
+</session>

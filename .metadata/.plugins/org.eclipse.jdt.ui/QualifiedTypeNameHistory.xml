@@ -3,4 +3,6 @@
 <fullyQualifiedTypeName name="exit.services.util.ManejadorDateAPI"/>
 <fullyQualifiedTypeName name="exit.services.util.json.ConvertidorJson"/>
 <fullyQualifiedTypeName name="exit.services.principal.peticiones.GetIdsAEliminar"/>
+<fullyQualifiedTypeName name="biactiva.services.fileHandler.CSVHandler"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,29 @@
+{
+	"PersonDEO_NDocumento_c":{
+		"tipo":"entero"
+	},
+		"FirstName":{
+		"tipo":"cadena",		
+	},
+		"LastName":{
+		"tipo":"cadena"
+		
+	},
+	"EmailAddress":{
+		"tipo":"cadena",
+		"borrarSiEsNull":"emails"
+	},
+		"WorkPhoneNumber":{
+		"tipo":"cadena",
+		"borrarSiEsNull":"phones[1]"
+	},
+	"MobileNumber":{
+		"tipo":"cadena",
+		"borrarSiEsNull":"phones[0]"
+	},
+	"AccountPartyId"{
+				"tipo":"ignorar",
+				"urlExtraer":"https://ccda-test.crm.us2.oraclecloud.com/crmCommonApi/resources/11.12.0.0/accounts/?q=PartyId=#CLAVE#",
+				"urlInsertar":"https://fibercorp--tst1.custhelp.com/services/rest/connect/v1.3/organizations?q=customFields.CO.CUIL_CUIT=%27#CLAVE#%27"	
+	}
+}

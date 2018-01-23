@@ -1,0 +1,54 @@
+package biactiva.services.ejecutores;
+
+import java.util.ArrayList;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import biactiva.services.convertidos.csvAJson.AbstractJsonRestEstructura;
+import biactiva.services.principal.peticiones.EPeticiones;
+import biactiva.services.principal.peticiones.GetGenerico;
+import biactiva.services.principal.peticiones.PostGenerico;
+import biactiva.services.principal.peticiones.UpdateGenericoRightNow;
+
+public class EjecutarContactosServiceASales implements IEjecutar{
+
+	@Override
+	public void procesar(AbstractJsonRestEstructura resultadoMapeo, JSONObject jsonActual) throws Exception {
+		Long id= (Long)jsonActual.get("id");
+		this.getMailService(id,resultadoMapeo.getJson());
+		this.getPhonesService(id,resultadoMapeo.getJson());
+		ArrayList<String> listaContactType= getContactsTypes(jsonContaco);
+		String urlFianl=r.getUrlVerificarExistencia(jsonContaco);
+		GetGenerico getContactosEnSales = new GetGenerico(EPeticiones.GET, urlFianl, r.getCabeceraInsertar());//Puede haber más de un contacto con el mismo DNI pero distinto contact_type
+		JSONArray contactosEnSales = (JSONArray)getContactosEnSales.realizarPeticion();
+		
+		for(String contactType: listaContactType){
+			String idSales=null;
+			for(int j=0;j<contactosEnSales.size();j++){
+				JSONObject contactoSalesActual= (JSONObject)contactosEnSales.get(i);
+				String contactTypeContactoActualSales= (String)contactoSalesActual.get("PersonDEO_TipoDeContacto_c");
+				if(contactTypeContactoActualSales!=null && contactTypeContactoActualSales.equals(contactType)){
+					idSales=(String)contactoSalesActual.get("PartyNumber");
+				}
+			}
+			resultadoContacto.put("PersonDEO_TipoDeContacto_c", contactType);
+			if(idSales!=null){
+				System.out.println("Actualizar... "+idSales);
+				System.out.println(resultadoContacto);
+				UpdateGenericoRightNow update = new UpdateGenericoRightNow(EPeticiones.UPDATE, r.getUrlInsertar(), r.getCabeceraInsertar());
+				update.realizarPeticion(idSales,resultadoContacto);
+			}
+			else{
+				System.out.println("insertar");
+				System.out.println(resultadoContacto);
+				PostGenerico post = new PostGenerico(EPeticiones.POST, r.getUrlInsertar(), r.getCabeceraInsertar());
+				post.realizarPeticion();
+
+			}
+			System.out.println("***********************************************");
+	}
+
+}
+
+

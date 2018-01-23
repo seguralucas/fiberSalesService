@@ -1,0 +1,129 @@
+package biactiva.services.ejecutores;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import com.csvreader.CsvWriter;
+
+import biactiva.services.convertidor.jsonAJson.ConvertirJsonAJson;
+import biactiva.services.convertidos.csvAJson.AbstractJsonRestEstructura;
+import biactiva.services.fileHandler.CSVHandler;
+import biactiva.services.principal.peticiones.AbstractHTTP;
+import biactiva.services.principal.peticiones.EPeticiones;
+import biactiva.services.principal.peticiones.GetExistFieldURLQueryRightNow;
+import biactiva.services.principal.peticiones.GetExistsFieldInSales;
+import biactiva.services.principal.peticiones.GetGenerico;
+import biactiva.services.principal.peticiones.GetServiceListaEntidad;
+import biactiva.services.principal.peticiones.PostGenerico;
+import biactiva.services.principal.peticiones.UpdateGenericoRightNow;
+import biactiva.services.singletons.ApuntadorDeEntidad;
+import biactiva.services.singletons.ConfiguracionEntidadParticular;
+import biactiva.services.singletons.RecEntAct;
+import biactiva.services.util.ManejadorDateAPI;
+import biactiva.services.util.json.JsonUtils;
+
+public class Ejecutor {
+	
+	public Object ejecutorSalesAService() throws Exception{
+		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
+		EjecutarGenericoSalesAService ejecutar= new EjecutarGenericoSalesAService();
+		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
+		for(int i=0;i<jArray.size();i++){
+			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdIteracion());
+			JSONObject entidad=(JSONObject)getGenerico.realizarPeticion(String.valueOf(id));
+			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,entidad);
+			AbstractJsonRestEstructura resultadoMapeo=conv.convertir();
+			ejecutar.procesar(resultadoMapeo, entidad);
+		}
+		return jArray.size();
+	}
+	
+	public Object ejecutorSalesAServiceContacts() throws Exception{
+		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
+		EjecutarContactosSalesAService ejecutar= new EjecutarContactosSalesAService();		
+		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
+		for(int i=0;i<jArray.size();i++){
+			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdIteracion());
+			JSONObject entidad=(JSONObject)getGenerico.realizarPeticion(String.valueOf(id));
+			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,entidad);
+			AbstractJsonRestEstructura resultadoMapeo=conv.convertir();
+			ejecutar.procesar(resultadoMapeo, entidad);
+			
+		}
+		return jArray.size();
+	}
+		
+	public Object ejecutorServiceASales() throws Exception{
+		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
+		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
+		for(int i=0;i<jArray.size();i++){
+			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdIteracion());
+			JSONObject entidad=(JSONObject)getGenerico.realizarPeticion(String.valueOf(id));
+			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,entidad);
+			AbstractJsonRestEstructura resultadoMapeo=conv.convertir();
+			System.out.println(resultadoMapeo);
+		}
+		return jArray.size();	
+	}
+	
+	public Object ejecutorServiceASalesContactos() throws Exception{
+		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
+		EjecutarContactosServiceASales ejecutar= new EjecutarContactosServiceASales();		
+		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
+		for(int i=0;i<jArray.size();i++){
+			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdIteracion());
+			JSONObject entidad=(JSONObject)getGenerico.realizarPeticion(String.valueOf(id));
+			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,entidad);
+			AbstractJsonRestEstructura resultadoMapeo=conv.convertir();
+			ejecutar.procesar(resultadoMapeo, entidad);
+		}
+		return jArray.size();	
+	}
+	
+
+		
+	private void escribirExcepcion(Exception e, AbstractJsonRestEstructura jsonEst){
+		e.printStackTrace();
+		try {
+			CSVHandler.getInstance().escribirErrorException(e);
+			CSVHandler.getInstance().escribirCSV("error_no_espeficado.csv", jsonEst.getLine());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+
+	
+	public Object ejecutar(String nombreMetodo, String parametros) throws Exception{
+		Class<Ejecutor> a= Ejecutor.class;
+		try {
+			Method m;
+			Object o;
+			if(parametros!=null){
+				m= a.getMethod(nombreMetodo, parametros.getClass());
+				o=m.invoke(this,parametros);				
+			}
+			else{
+				m=a.getMethod(nombreMetodo);
+				o=m.invoke(this);
+			}
+			return o;
+		} catch (Exception e) {
+			e.printStackTrace();
+			CSVHandler.getInstance().escribirErrorException(e);
+			throw new Exception("Error al ejecutar ejecutor");
+		} 
+	}
+}

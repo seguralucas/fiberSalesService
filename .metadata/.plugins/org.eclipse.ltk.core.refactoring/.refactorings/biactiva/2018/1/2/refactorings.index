@@ -5,3 +5,26 @@
 1515442137657	Delete element
 1515442170863	Delete element
 1515442326769	Copy file
+1515544696678	Delete element
+1515544773432	Move compilation unit
+1515544788269	Rename type 'AlmacenadorFechaYHora'
+1515544863183	Delete element
+1515544868736	Delete element
+1515545246017	Move compilation unit
+1515545433965	Rename package 'exit.services.convertidor.jsonAJson'
+1515545442906	Rename package 'exit.services.convertidos.csvAJson'
+1515545451296	Rename package 'exit.services.ejecutores'
+1515545461617	Rename package 'exit.services.fileHandler'
+1515545488110	Rename package 'exit.services.principal.peticiones'
+1515545500402	Rename package 'exit.services.procesadorJson'
+1515545509613	Rename package 'exit.services.singletons'
+1515545517057	Rename package 'exit.services.singletons.entidadesARecuperar'
+1515545527128	Rename package 'exit.services.util'
+1515545534702	Rename package 'exit.services.util.json'
+1515545678934	Delete elements
+1515545684990	Move compilation unit
+1515545718803	Delete element
+1515546320352	Move compilation unit
+1515546449693	Rename type 'EjecutarSalesAServiceContactos'
+1515547053969	Rename type 'EjecutarCuentasSalesAService'
+1515548676387	Delete element
