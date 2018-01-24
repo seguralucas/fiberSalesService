@@ -9,6 +9,11 @@ import biactiva.services.convertidos.csvAJson.AbstractJsonRestEstructura;
 import biactiva.services.singletons.RecEntAct;
 import biactiva.services.util.json.JsonUtils;
 
+/****
+ * Trata de iterar si se le pasa en la url /entidad o devuelve un Json si se le pasa /entidad/id
+ * @author GAS
+ *
+ */
 public class GetGenerico extends AbstractHTTP{
 
 	public GetGenerico(EPeticiones peticion, String url, JSONObject cabecera) {

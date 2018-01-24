@@ -13,6 +13,7 @@ import biactiva.services.fileHandler.CSVHandler;
 import biactiva.services.fileHandler.ConstantesGenerales;
 import biactiva.services.fileHandler.DirectorioManager;
 import biactiva.services.singletons.RecEntAct;
+import biactiva.services.util.json.JsonUtils;
 
 public class UpdateGenericoRightNow extends AbstractHTTP{
 
@@ -27,15 +28,8 @@ public class UpdateGenericoRightNow extends AbstractHTTP{
 	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, String id, int responseCode)
 			throws Exception {
 	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(json.getConfEntidadPart(), CSVHandler.PATH_UPDATES_OK);
-	    CSVHandler.getInstance().escribirCSV(fichero, id+RecEntAct.getInstance().getCep().getSeparadorCSV()+json.getLine(), "ID"+RecEntAct.getInstance().getCep().getSeparadorCSV()+CSVHandler.cabeceraFichero,true);        
-        JSONObject propiedadesExtra=(JSONObject)json.getJson().get(PROPIEDADES_EXTRA);
-        if(propiedadesExtra==null)
-        	propiedadesExtra= new JSONObject();
-        else
-        	json.getJson().remove(PROPIEDADES_EXTRA);
-        propiedadesExtra.put("id"+json.getConfEntidadPart().getEntidadNombre(), id);
-        json.getJson().put(PROPIEDADES_EXTRA, propiedadesExtra);
-        return json;		
+        super.escribirFicheroResultadoPeticion(fichero, json, id);
+        return JsonUtils.convertir(in,true);		
 	}
 
 

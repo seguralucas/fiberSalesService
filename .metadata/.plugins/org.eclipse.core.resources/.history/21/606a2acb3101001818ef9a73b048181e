@@ -1,0 +1,33 @@
+{
+	"customFields.CO.DNI":{
+		"tipo":"entero"
+	},
+		"name.first":{
+		"tipo":"cadena",		
+	},
+		"name.last":{
+		"tipo":"cadena"
+},
+	"AccountPartyId"{
+			"tipo":"entero",
+			"MapearOrganizacion":{
+				"urlExtraer":"https://ccda-test.crm.us2.oraclecloud.com/crmCommonApi/resources/11.12.0.0/accounts/?q=PartyId=#CLAVE#",
+				"urlInsertar":"https://fibercorp--tst1.custhelp.com/services/rest/connect/v1.3/organizations?q=customFields.CO.CUIL_CUIT=%27#CLAVE#%27"	
+			}	
+	},
+	"customFields.c.persondeo_comercial_c":{
+		"tipo":"booleano"
+	},
+	"customFields.c.persondeo_administrativo_c":{
+		"tipo":"booleano"
+	},
+	"customFields.c.persondeo_apoderado_c":{
+		"tipo":"booleano"
+	},
+	"customFields.c.persondeo_tecnico_c":{
+		"tipo":"booleano"
+	},
+	"customFields.c.persondeo_cobranza_c":{
+		"tipo":"booleano"
+	}
+}

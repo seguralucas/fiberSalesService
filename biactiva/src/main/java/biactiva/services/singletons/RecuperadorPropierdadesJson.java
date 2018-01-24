@@ -11,7 +11,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import biactiva.services.fileHandler.CSVHandler;
 import biactiva.services.fileHandler.ConstantesGenerales;
 
 public class RecuperadorPropierdadesJson {
@@ -25,7 +24,9 @@ public class RecuperadorPropierdadesJson {
 	public static final String PROPIEDAD_REEMPLAZAR_CAR_ESPANOL="reemplazarCarEspanol";
 	public static final String PROPIEDAD_VALOR_POR_DEFAULT="valorPorDefault";
 	public static final String PROPIEDAD_COMPLETAR10CEROS="completar10Ceros";
+	public static final String PROPIEDAD_FALSO_SI_NULO="falsoSiNulo";
 	public static final String PROPIEDAD_MAPEAR_ORGANIZACION="MapearOrganizacion";
+	public static final String PROPIEDAD_BORRAR_DE_URL="borrarDeUrl";
 
 	public static final String PROPIEDAD_VALORES_PERMITIDOS="valoresPermitidos";
 	public static final String PROPIEDAD_VALORES_PERMITIDOS_LISTA="lista";
@@ -139,6 +140,17 @@ public class RecuperadorPropierdadesJson {
 		return (JSONArray)json.get(PROPIEDAD_VALORES_PERMITIDOS_LISTA);
 	}
 	
+	public String getBorrarDeUrl(String key){
+		JSONObject j= this.getPropiedades(key);
+		String aux=j==null?null:(String)j.get(PROPIEDAD_BORRAR_DE_URL);
+		return aux;
+		
+	}public boolean isBorrarDeUrl(String key){
+		JSONObject j= this.getPropiedades(key);
+		Object aux=j==null?null:j.get(PROPIEDAD_BORRAR_DE_URL);
+		return aux!=null;
+	}
+	
 	public boolean isValoresPermitidosCaseSensitive(String key){
 		JSONObject json= this.getValoresPermitidos(key);
 		if(json==null)
@@ -159,6 +171,14 @@ public class RecuperadorPropierdadesJson {
 		Object aux=j==null?null:j.get(PROPIEDAD_GET_ID_FROM_URL);
 		return aux!=null;
 	}
+	
+	public boolean isFalsoSiNulo(String key){
+		JSONObject j= this.getPropiedades(key);
+		Object aux=j==null?null:j.get(PROPIEDAD_FALSO_SI_NULO);
+		return aux!=null;
+	}
+	
+	
 	
 	
 	public JSONObject getJsonPropiedades() {

@@ -1,0 +1,5 @@
+package biactiva.services.principal.peticiones;
+
+public class GetGenericoJson {
+
+}

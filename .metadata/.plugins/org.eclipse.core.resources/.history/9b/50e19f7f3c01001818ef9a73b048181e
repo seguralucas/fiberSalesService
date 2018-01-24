@@ -1,0 +1,57 @@
+{
+	"PersonDEO_NDocumento_c":{
+		"tipo":"entero"
+	},
+		"FirstName":{
+		"tipo":"cadena",		
+	},
+		"LastName":{
+		"tipo":"cadena"
+		
+	},
+	"EmailAddress":{
+		"tipo":"cadena",
+		"borrarSiEsNull":"emails",
+		"borrarDeUrl":"https://fibercorp--tst1.custhelp.com/services/rest/connect/v1.3/contacts/#id#/emails/0"
+		
+	},
+	"MobileNumber":{
+		"tipo":"cadena",
+		"borrarSiEsNull":"phones[0]",
+		"borrarDeUrl":"https://fibercorp--tst1.custhelp.com/services/rest/connect/v1.3/contacts/#id#/phones/0"	
+	},
+		"WorkPhoneNumber":{
+		"tipo":"cadena",
+		"borrarSiEsNull":"phones[1]",
+		"borrarDeUrl":"https://fibercorp--tst1.custhelp.com/services/rest/connect/v1.3/contacts/#id#/phones/1"
+	},
+
+	"AccountPartyId"{
+				"tipo":"ignorar",
+				"MapearOrganizacion":{
+					"urlExtraer":"https://ccda-test.crm.us2.oraclecloud.com/crmCommonApi/resources/11.12.0.0/accounts/?q=PartyId=#CLAVE#",
+					"urlInsertar":"https://fibercorp--tst1.custhelp.com/services/rest/connect/v1.3/organizations?q=customFields.CO.CUIL_CUIT=%27#CLAVE#%27"	
+				}
+	},
+	
+	 "PersonDEO_Comercial_c":{
+		"falsoSiNulo":true,
+		"tipo":"booleano"
+	 },
+     "PersonDEO_Administrativo_c":{
+		"falsoSiNulo":true,
+		"tipo":"booleano"
+     },
+     "PersonDEO_Apoderado_c":{
+    	"falsoSiNulo":true,
+		"tipo":"booleano"
+     },
+     "PersonDEO_Tecnico_c":{
+     	"falsoSiNulo":true,
+		"tipo":"booleano"
+     },
+     "PersonDEO_Cobranza_c":{
+      		"falsoSiNulo":true,
+		"tipo":"booleano"
+      }        
+}

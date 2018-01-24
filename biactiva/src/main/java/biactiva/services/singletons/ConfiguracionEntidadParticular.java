@@ -9,14 +9,8 @@ import java.util.Properties;
 
 import org.json.simple.JSONObject;
 
-import biactiva.services.fileHandler.CSVHandler;
 import biactiva.services.fileHandler.ConstantesGenerales;
 import biactiva.services.fileHandler.DirectorioManager;
-import biactiva.services.principal.peticiones.EPeticiones;
-import biactiva.services.principal.peticiones.GetExistFieldURLQueryRightNow;
-import biactiva.services.singletons.entidadesARecuperar.IPeticiones;
-import biactiva.services.singletons.entidadesARecuperar.PeticionEntidad;
-import biactiva.services.singletons.entidadesARecuperar.RecuperadorPeticiones;
 import biactiva.services.singletons.entidadesARecuperar.SFTPPropiedades;
 import biactiva.services.util.ManejadorDateAPI;
 import biactiva.services.util.json.JsonUtils;
@@ -24,6 +18,8 @@ import biactiva.services.util.json.JsonUtils;
 public class ConfiguracionEntidadParticular {
 	public static final String OUTPUT_FILE_DEFAULT="salida.csv";
 	public static final String OUTPUT_PATH_DEFAULT=".";
+	public static final String MODO_ESCRITURA_JSON="json";
+	public static final String MODO_ESCRITURA_CSV="csv";
 	
 	private String outPut;
 	private SFTPPropiedades sftpPropiedades=null;
@@ -87,8 +83,11 @@ public class ConfiguracionEntidadParticular {
 	  
 		public String getPathCSVRegistros() {
 			return getValueMap("pathCSVRegistros");
-			
 		}
+		
+		public String getModoEscritura() {
+			return getValueMap("modoEscritura");
+		}		
 		
 		public boolean isCreateEmptyFile(){
 			return getValueMap("createEmptyFile")==null?false:getValueMap("createEmptyFile").equalsIgnoreCase("true");

@@ -13,7 +13,7 @@ import biactiva.services.singletons.RecEntAct;
 
 public class CSVHandler {
 	
-	public static String cabeceraFichero;
+	private String cabeceraFichero;
 	public static final String PATH_ERROR_SERVER_NO_ALCANZADO="servidor_no_alcanzado.csv";
 	public static final String PATH_ERROR_EXCEPTION="exception_ejecucion.csv";
 	public static final String PATH_ERROR_VALIADACION_DATOS_CSV="error_validacion_datos.csv";
@@ -155,4 +155,14 @@ public class CSVHandler {
 					e2.printStackTrace();
 				}
 	 }
+
+		public String getCabeceraFichero() {
+			return cabeceraFichero;
+		}
+
+		public void setCabeceraFichero(String cabeceraFichero) {
+			this.cabeceraFichero = cabeceraFichero;
+		}
+		 
+		 
 }

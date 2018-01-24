@@ -1,0 +1,21 @@
+{ 
+    "emails":[{"address":"#EmailAddress#", "addressType":{"id":0}}],
+    "phones":[{"number":"#MobileNumber#","phoneType":{"id":0}},{"number":"#WorkPhoneNumber#","phoneType":{"id":1}}],
+"customFields": {
+        "CO": {
+            "DNI": "#PersonDEO_NDocumento_c#"
+        },
+        "c": {
+            "persondeo_comercial_c": "##",
+            "persondeo_administrativo_c": "##",
+            "persondeo_apoderado_c": "##",
+            "persondeo_tecnico_c": "##",
+            "persondeo_cobranza_c": "##"
+        }
+    },
+	    "name": {
+        "first": "#FirstName#",
+        "last": "#LastName#"
+    }
+    
+}

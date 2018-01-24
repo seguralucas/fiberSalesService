@@ -28,40 +28,21 @@ public class EjecutarContactosSalesAService implements IEjecutar {
 		addOrganization(jsonActual,resultadoMapeo);
 		if(idContacto==null){
 			PostGenerico post= new PostGenerico(EPeticiones.POST,r.getUrlInsertar(),r.getCabeceraInsertar());
-			addContactType(jsonActual,resultadoMapeo);
 			System.out.println(resultadoMapeo);
 			System.out.println("Insertando");
-//			post.realizarPeticion( resultadoMapeo );
+			post.realizarPeticion( resultadoMapeo );
 		}
 		else{
-			GetGenerico getGenerico = new GetGenerico(EPeticiones.GET, r.getUrlInsertar(), r.getCabeceraInsertar());
-			JSONObject jsonContactoService=(JSONObject)getGenerico.realizarPeticion(idContacto);
-			addContactType(jsonActual,resultadoMapeo);
 			System.out.println(resultadoMapeo);
 			System.out.println("Actualizando..");
+			resultadoMapeo.deleteUrlEliminar(idContacto);
 			UpdateGenericoRightNow update= new UpdateGenericoRightNow(EPeticiones.UPDATE, r.getUrlInsertar(),r.getCabeceraInsertar());
-//			update.realizarPeticion(idContacto, resultadoMapeo);
+			update.realizarPeticion(idContacto, resultadoMapeo);
 		}
 		System.out.println("************");		
 	}
 	
-	private void addContactType(JSONObject jsonActual, JSONObject jsonResultadoMapeo) throws Exception{
-		Boolean comercial= (Boolean)jsonActual.get("PersonDEO_Comercial_c");
-		Boolean administrativo= (Boolean)jsonActual.get("PersonDEO_Administrativo_c");
-		Boolean apoderado= (Boolean)jsonActual.get("PersonDEO_Apoderado_c");
-		Boolean tecnico= (Boolean)jsonActual.get("PersonDEO_Tecnico_c");
-		Boolean cobranza= (Boolean)jsonActual.get("PersonDEO_Cobranza_c");
-		
-		System.out.println("Valor PersonDEO_Comercial_c:"+comercial);
-		System.out.println("Valor PersonDEO_Administrativo_c:"+administrativo);
-		System.out.println("Valor PersonDEO_Apoderado_c:"+apoderado);
-		System.out.println("Valor PersonDEO_Tecnico_c:"+tecnico);
-		System.out.println("Valor PersonDEO_Cobranza_c:"+cobranza);
-		
-		if(comercial!=null && comercial.booleanValue()){
-			//JSONObject informacionContactType= JsonUtils.convertir("{\"id\": }");
-		}
-	}
+
 	
 	private void addOrganization(JSONObject jsonActual, JSONObject jsonResultadoMapeo) throws Exception{
 		try{
@@ -83,71 +64,8 @@ public class EjecutarContactosSalesAService implements IEjecutar {
 
 		
 		}catch(Exception e){
-
+			jsonResultadoMapeo.put("organization",null);
 		}
 	}
 
-	
-	private JSONObject mapeoContactType(String contactType, int nroContactType) throws Exception{
-		if(nroContactType == 1){
-			JSONObject informacionContactType= JsonUtils.convertir("{\"id\":"+mapeoContactTypeSalesAService(contactType,nroContactType)+"}");
-			return informacionContactType;
-		}
-		JSONObject aux= new JSONObject();
-		JSONObject aux2= new JSONObject();
-		JSONObject informacionContactType;
-		informacionContactType= JsonUtils.convertir("{\"id\":"+mapeoContactTypeSalesAService(contactType,nroContactType)+"}");
-		aux.put("contact_type"+nroContactType,informacionContactType );
-		aux2.put("c",aux );
-		return aux2;
-	}
-	
-	private Long mapeoContactTypeSalesAService(String contactType, int nroContactType){
-		if(nroContactType==1){
-			if(contactType.equalsIgnoreCase("TIPOC1"))
-				return 1L;
-			else if(contactType.equalsIgnoreCase("TIPOC2"))
-				return 2L;
-			else if(contactType.equalsIgnoreCase("TIPOC3"))
-				return 3L;
-			else if(contactType.equalsIgnoreCase("TIPOC4"))
-				return 4L;
-			else if(contactType.equalsIgnoreCase("TIPOC5"))
-				return 5L;
-		}
-		else if(nroContactType == 2){
-			if(contactType.equalsIgnoreCase("TIPOC1"))
-				return 16L;
-			else if(contactType.equalsIgnoreCase("TIPOC2"))
-				return 17L;
-			else if(contactType.equalsIgnoreCase("TIPOC3"))
-				return 18L;
-			else if(contactType.equalsIgnoreCase("TIPOC4"))
-				return 19L;
-			else if(contactType.equalsIgnoreCase("TIPOC5"))
-				return 20L;			
-		}
-		else{
-			if(contactType.equalsIgnoreCase("TIPOC1"))
-				return 21L;
-			else if(contactType.equalsIgnoreCase("TIPOC2"))
-				return 22L;
-			else if(contactType.equalsIgnoreCase("TIPOC3"))
-				return 23L;
-			else if(contactType.equalsIgnoreCase("TIPOC4"))
-				return 24L;
-			else if(contactType.equalsIgnoreCase("TIPOC5"))
-				return 25L;
-		}
-		return null;
-	}
-
-//	public static void main(String[] args) throws Exception {
-//		EjecutarContactosSalesAService get = new EjecutarContactosSalesAService();
-//		JSONObject a=JsonUtils.convertir("{\"contactType\":{\"id\":2},\"customFields\":{\"c\":{\"contact_type2\":{\"id\":19} ,\"contact_type3\":null}}}");
-//		JSONObject b= JsonUtils.convertir("{}");
-////		JSONObject b=JsonUtils.convertir("{\"customFields\":{\"CO\":{\"contact_type1\":{\"id\":2}}}}");
-//		get.addContactType("TIPOC4",a,b);
-//		System.out.println(b);
-//	}
 }

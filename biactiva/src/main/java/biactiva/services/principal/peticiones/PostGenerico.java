@@ -27,28 +27,13 @@ public class PostGenerico extends AbstractHTTP{
 	}
 
 	@Override
-	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception {
+	protected Object procesarPeticionOK(BufferedReader in, AbstractJsonRestEstructura json, int responseCode) throws Exception {     
 		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
 	    File fichero = DirectorioManager.getDirectorioFechaYHoraInicio(json.getConfEntidadPart(), CSVHandler.PATH_INSERTADOS_OK);
-        String inputLine;
-        boolean marca = true; //Recuperamos el ID
         JSONObject jsonResultado=JsonUtils.convertir(in);
-        
         String id=jsonResultado.get(r.getIdInsercion()).toString();
-        String cabecera;
-        if(json.getCabeceraCSV()==null)//Esta validacion es sólo por algo que quedo viejo cuando va de CSV a Servicio
-        	cabecera=CSVHandler.cabeceraFichero;
-       	else
-       		cabecera=json.getCabeceraCSV();
-        CSVHandler.getInstance().escribirCSV(fichero, id+r.getSeparadorCSV()+json.getLine(), r.getIdExtraccion()+r.getSeparadorCSV()+cabecera,true);        
-        JSONObject propiedadesExtra=(JSONObject)json.getJson().get(PROPIEDADES_EXTRA);
-        if(propiedadesExtra==null)
-        	propiedadesExtra= new JSONObject();
-        else
-        	json.getJson().remove(PROPIEDADES_EXTRA);
-        propiedadesExtra.put("id"+json.getConfEntidadPart().getEntidadNombre(), id);
-        json.getJson().put(PROPIEDADES_EXTRA, propiedadesExtra);
-        return json;
+        super.escribirFicheroResultadoPeticion(fichero, json, id);
+        return jsonResultado;
 	}
 
 

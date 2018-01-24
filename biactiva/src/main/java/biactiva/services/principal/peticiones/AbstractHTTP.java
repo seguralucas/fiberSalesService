@@ -126,7 +126,7 @@ public abstract class AbstractHTTP {
 	            }	                
           catch (ConnectException e) {
 				try {
-					CSVHandler.getInstance().escribirCSV(CSVHandler.PATH_ERROR_SERVER_NO_ALCANZADO, url+"/"+id==null?"":id);
+					CSVHandler.getInstance().escribirCSV(CSVHandler.PATH_ERROR_SERVER_NO_ALCANZADO, url+"/"+(id==null?"":id));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -201,4 +201,24 @@ public abstract class AbstractHTTP {
 			jArray = JsonUtils.convertirArray(in);
 		return jArray;
 	}
+	
+	protected void escribirFicheroResultadoPeticion(File fichero, AbstractJsonRestEstructura json, String id) throws IOException{
+		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
+		CSVHandler c=CSVHandler.getInstance();
+		if(r.getModoEscritura().equalsIgnoreCase(ConfiguracionEntidadParticular.MODO_ESCRITURA_CSV)){
+			String cabecera=null;
+			if(c.getCabeceraFichero()!=null){
+				cabecera=r.getIdExtraccion()+r.getSeparadorCSV()+cabecera;
+				c.escribirCSV(fichero, id+r.getSeparadorCSV()+json.getLine(), cabecera,true);
+			}
+			else
+				c.escribirCSV(fichero, id+r.getSeparadorCSV()+json.getLine(), true);
+		}
+		else if(r.getModoEscritura().equalsIgnoreCase(ConfiguracionEntidadParticular.MODO_ESCRITURA_JSON)){
+			System.out.println(json.toStringSinEnter());
+			c.escribirCSV(fichero, id+r.getSeparadorCSV()+json.toStringSinEnter(), false);
+		}
+	}
+	
+	
 }

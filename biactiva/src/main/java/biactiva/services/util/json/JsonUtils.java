@@ -34,6 +34,18 @@ public class JsonUtils {
 		return convertir(jsonString);
 	}
 	
+	public static JSONObject convertir(BufferedReader in, boolean devolverNullXExcepcion) throws Exception{
+		StringBuilder builder = new StringBuilder();
+		String line;
+        while ((line = in.readLine()) != null) {
+            builder.append(line);
+        }
+        String jsonString = builder.toString();
+        if(devolverNullXExcepcion)
+        	try{return convertir(jsonString);}catch(Exception e){return null;}
+        return convertir(jsonString);
+	}
+	
 	public static JSONArray convertirArray(BufferedReader in) throws Exception{
 		StringBuilder builder = new StringBuilder();
 		String line;

@@ -1,0 +1,70 @@
+package biactiva.services.ejecutores;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import biactiva.services.convertidos.csvAJson.AbstractJsonRestEstructura;
+import biactiva.services.principal.peticiones.EPeticiones;
+import biactiva.services.principal.peticiones.GetExistFieldURLQueryRightNow;
+import biactiva.services.principal.peticiones.GetGenerico;
+import biactiva.services.principal.peticiones.PostGenerico;
+import biactiva.services.principal.peticiones.UpdateGenericoRightNow;
+import biactiva.services.singletons.ConfiguracionEntidadParticular;
+import biactiva.services.singletons.RecEntAct;
+import biactiva.services.singletons.RecuperadorPropierdadesJson;
+import biactiva.services.util.json.JsonUtils;
+
+public class EjecutarContactosSalesAService implements IEjecutar {
+
+	@Override
+	public void procesar(AbstractJsonRestEstructura resultadoMapeo, JSONObject jsonActual) throws Exception {
+		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
+		String urlFianl=r.getUrlVerificarExistencia(jsonActual);
+		String idContacto=null;
+		if(urlFianl!=null){
+			GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(EPeticiones.GET,urlFianl,r.getCabeceraInsertar());
+			idContacto=(String)get.realizarPeticion();
+		}
+		addOrganization(jsonActual,resultadoMapeo);
+		if(idContacto==null){
+			PostGenerico post= new PostGenerico(EPeticiones.POST,r.getUrlInsertar(),r.getCabeceraInsertar());
+			System.out.println(resultadoMapeo);
+			System.out.println("Insertando");
+			post.realizarPeticion( resultadoMapeo );
+		}
+		else{
+			System.out.println(resultadoMapeo);
+			System.out.println("Actualizando..");
+			resultadoMapeo.deleteUrlEliminar(idContacto);
+			UpdateGenericoRightNow update= new UpdateGenericoRightNow(EPeticiones.UPDATE, r.getUrlInsertar(),r.getCabeceraInsertar());
+			update.realizarPeticion(idContacto, resultadoMapeo);
+		}
+		System.out.println("************");		
+	}
+	
+
+	
+	private void addOrganization(JSONObject jsonActual, JSONObject jsonResultadoMapeo) throws Exception{
+		try{
+			ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
+			RecuperadorPropierdadesJson rpj = r.getRecuperadorPropiedadesJson();
+			JSONObject mapeador = rpj.getMapearOrganizacion("organization");
+			JSONObject organization=(JSONObject)jsonActual.get("organization");
+			JSONArray organizationLinks=(JSONArray)jsonActual.get("jsonActual");
+			String urlExtraer=(String)((JSONObject)organizationLinks.get(0)).get("href");
+			GetGenerico get= new GetGenerico(EPeticiones.GET, urlExtraer, r.getCabeceraExtraer());
+			JSONArray jsonArray= (JSONArray) get.realizarPeticion();
+			JSONObject json=(JSONObject) jsonArray.get(0);
+			String CUIT=(String)((JSONObject)(((JSONObject)json.get("customFields")).get("CO"))).get("CUIL_CUIT");
+			String urlInsertar= mapeador.get("urlInsertar").toString().replaceAll(r.getIdentificadorAtributo()+"CLAVE"+r.getIdentificadorAtributo(), CUIT);
+			get= new GetGenerico(EPeticiones.GET, urlInsertar, r.getCabeceraInsertar());
+			jsonArray= (JSONArray) get.realizarPeticion();
+			Long idOrganizacionSales= (Long)((JSONObject)jsonArray.get(0)).get("OrganizationDEO_NDocumento_c");
+			if(idOrganizacionSales!=null)
+				jsonResultadoMapeo.put("OrganizationDEO_NDocumento_c", idOrganizacionSales);	
+		}catch(Exception e){
+
+		}
+	}
+
+}

@@ -13,6 +13,8 @@ import biactiva.services.fileHandler.CSVHandler;
 import biactiva.services.fileHandler.ConstantesGenerales;
 import biactiva.services.principal.peticiones.AbstractHTTP;
 import biactiva.services.principal.peticiones.EPeticiones;
+import biactiva.services.principal.peticiones.EliminarGenerico;
+import biactiva.services.principal.peticiones.EliminarGenericoSinLog;
 import biactiva.services.principal.peticiones.GetExistFieldURLQueryRightNow;
 import biactiva.services.principal.peticiones.GetExistsFieldInSales;
 import biactiva.services.procesadorJson.IProcesadorJson;
@@ -57,12 +59,12 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 	protected void insertarValorJson(String cabecera, String valor) throws Exception{ 
 
 		Object valorAlterado=alterarValor(cabecera,valor);
-		if(valorAlterado!=null && RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().isGetIdFromUrl(cabecera)){
+		RecuperadorPropierdadesJson formato= RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson();
+		if(valorAlterado!=null && formato.isGetIdFromUrl(cabecera))
 			valorAlterado=getIdFromUrl(valorAlterado,cabecera);
-			if(valorAlterado!=null)
-				System.out.println("sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--sadadgadhgadh849*/--");
-		}
-		if(valorAlterado==null && RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().isBorrarSiEsNull(cabecera))
+		if(valorAlterado == null && formato.isBorrarDeUrl(cabecera))
+			añadirAListaUrlEliminar(cabecera);
+		if(valorAlterado==null && formato.isBorrarSiEsNull(cabecera))
 			borrarKey(cabecera);
 		else{
 			JsonProcesarReemplazo jpr= new JsonProcesarReemplazo(valorAlterado,cabecera,RecEntAct.getInstance().getCep());
@@ -104,6 +106,12 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 			return false;
 		else 
 			return null;
+	}
+	
+	protected Boolean insertarFalsoSiNull(String cabecera, Boolean valor){
+		if(!RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().isFalsoSiNulo(cabecera))
+			return valor;
+		return valor==null?Boolean.FALSE:valor;
 	}
 	
 
@@ -220,7 +228,20 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		}
 	}
 	
+	private ArrayList<String> listaUrlEliminar= new ArrayList<String>();
 
+	protected void añadirAListaUrlEliminar(String cabecera){
+		listaUrlEliminar.add(RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().getBorrarDeUrl(cabecera));
+	}
+	
+	public void deleteUrlEliminar(String id){
+		ConfiguracionEntidadParticular r = RecEntAct.getInstance().getCep();
+		for(String url:listaUrlEliminar){
+			url=url.replaceAll(r.getIdentificadorAtributo()+"id"+r.getIdentificadorAtributo(), id);
+			EliminarGenericoSinLog del = new EliminarGenericoSinLog(EPeticiones.DELETE, url, r.getCabeceraInsertar());
+			del.realizarPeticion();
+		}
+	}
 	
 	protected String insertarString(String valor){
 		if(valor == null || valor.length()==0)
@@ -277,7 +298,8 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 	}
 	
 	protected Boolean procesarBooleano(String cabecera, String valor){
-		return insertarTrueOFalse(valor);
+		Boolean resultado= insertarTrueOFalse(valor);
+		return  insertarFalsoSiNull(cabecera,resultado);
 	}
 	
 	protected String borrarCaracteresNoNumericos(String cabecera, String valor){
