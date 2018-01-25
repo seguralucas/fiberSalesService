@@ -26,14 +26,24 @@ public class JsonGenerico extends AbstractJsonRestEstructura{
 	
 	@Override
 	public Object alterarValor(String cabecera, String valor) throws Exception {
-		switch(RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().getTipo(cabecera)){
+		valor =mapearValores(cabecera,valor);
+		switch(RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().getTipo(cabecera).toLowerCase()){
 			case RecuperadorPropierdadesJson.TIPO_FECHA: return procesarFecha(cabecera,valor);
 			case RecuperadorPropierdadesJson.TIPO_ENTERO: return procesarEntero(cabecera,valor);
 			case RecuperadorPropierdadesJson.TIPO_CADENA: return  procesarCadena(cabecera,valor);
 			case RecuperadorPropierdadesJson.TIPO_BOOLEANO: return  procesarBooleano(cabecera,valor);
+			case RecuperadorPropierdadesJson.TIPO_JSON: return  procesarJson(cabecera,valor);
 
 			default: return valor;
 		}
+	}
+	
+	private String mapearValores(String cabecera, String valor) throws Exception{
+		if(!RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().isMapeador(cabecera) || valor==null)
+			return valor;
+		System.out.println("Valor a mapear: "+valor);
+		return Mapeador.getInstance().getValorMapeado(RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson().getMapeador(cabecera),valor);
+			
 	}
 	
 	@Override

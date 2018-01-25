@@ -21,7 +21,7 @@ public class Ejecutor {
 	public Object ejecutorSalesAService() throws Exception{
 		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
 		EjecutarGenericoSalesAService ejecutar= new EjecutarGenericoSalesAService();
-		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		AbstractHTTP getGenerico= new GetGenerico(r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
 		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
 		for(int i=0;i<jArray.size();i++){
 			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdExtraccion());
@@ -36,7 +36,7 @@ public class Ejecutor {
 	public Object ejecutorSalesAServiceContacts() throws Exception{
 		ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
 		EjecutarContactosSalesAService ejecutar= new EjecutarContactosSalesAService();		
-		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		AbstractHTTP getGenerico= new GetGenerico(r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
 		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
 		for(int i=0;i<jArray.size();i++){
 			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdExtraccion());
@@ -51,7 +51,7 @@ public class Ejecutor {
 		
 	public Object ejecutorServiceASales() throws Exception{
 		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
-		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		AbstractHTTP getGenerico= new GetGenerico(r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
 		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
 		for(int i=0;i<jArray.size();i++){
 			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdExtraccion());
@@ -66,7 +66,7 @@ public class Ejecutor {
 	public Object ejecutorServiceASalesContactos() throws Exception{
 		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
 		EjecutarContactosServiceASales ejecutar= new EjecutarContactosServiceASales();		
-		AbstractHTTP getGenerico= new GetGenerico(EPeticiones.GET,r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
+		AbstractHTTP getGenerico= new GetGenerico(r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
 		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
 		for(int i=0;i<jArray.size();i++){
 			Object id = ((JSONObject)(jArray.get(i))).get(r.getIdExtraccion());

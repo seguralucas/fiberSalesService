@@ -27,8 +27,8 @@ public class GetIdsAEliminar extends AbstractHTTP{
 
 
 
-	public GetIdsAEliminar(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
+	public GetIdsAEliminar(String url, JSONObject cabecera) {
+		super(EPeticiones.GET, url, cabecera);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class GetIdsAEliminar extends AbstractHTTP{
 	protected Object procesarPeticionOK(BufferedReader in, int responseCode) throws Exception {
 		JSONObject jsonObject = JsonUtils.convertir(in);
 		JSONArray jsonArrayItems= (JSONArray) jsonObject.get(("items"));
-		EliminarGenerico e= new EliminarGenerico(EPeticiones.DELETE,this.url,RecEntAct.getInstance().getCep().getCabeceraInsertar());
+		EliminarGenerico e= new EliminarGenerico(this.url,RecEntAct.getInstance().getCep().getCabeceraInsertar());
 		Integer resultado=jsonArrayItems.size();
 		ExecutorService workers = Executors.newFixedThreadPool(RecEntAct.getInstance().getCep().getNivelParalelismo());      	
 	    List<Callable<Void>> tasks = new ArrayList<>();

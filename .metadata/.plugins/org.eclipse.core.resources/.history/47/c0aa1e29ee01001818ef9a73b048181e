@@ -1,0 +1,13 @@
+{
+	"OrganizationName":{
+		"tipo":"cadena"
+	},
+	"OrganizationDEO_NDocumento_c":{
+		"tipo":"cadena"	
+	},
+	"OrganizationDEO_NDeEmpleados_c"{
+			"tipo":"JSON",
+			"mapeador":"a.NDeEmpleados.properties"
+	}
+
+}

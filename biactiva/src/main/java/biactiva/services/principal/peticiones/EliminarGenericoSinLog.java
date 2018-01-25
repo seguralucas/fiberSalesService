@@ -18,8 +18,8 @@ public class EliminarGenericoSinLog extends AbstractHTTP {
 	
 
 
-	public EliminarGenericoSinLog(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
+	public EliminarGenericoSinLog(String url, JSONObject cabecera) {
+		super(EPeticiones.DELETE, url, cabecera);
 	}
 
 	@Override

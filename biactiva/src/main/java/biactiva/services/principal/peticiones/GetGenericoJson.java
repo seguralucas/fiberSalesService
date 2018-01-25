@@ -14,8 +14,8 @@ import biactiva.services.util.json.JsonUtils;
  */
 public class GetGenericoJson extends AbstractHTTP{
 
-	public GetGenericoJson(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
+	public GetGenericoJson(String url, JSONObject cabecera) {
+		super(EPeticiones.GET, url, cabecera);
 	}
 
 	@Override

@@ -15,8 +15,8 @@ public class GetServiceListaEntidad extends AbstractHTTP{
 
 
 
-	public GetServiceListaEntidad(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
+	public GetServiceListaEntidad(String url, JSONObject cabecera) {
+		super(EPeticiones.GET, url, cabecera);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class GetServiceListaEntidad extends AbstractHTTP{
 		String url=r.getUrlVerificarExistencia(json);
 		if(url==null)
 			return null;
-		GetExistsFieldInSales get = new GetExistsFieldInSales(EPeticiones.GET, url, r.getCabeceraInsertar());
+		GetExistsFieldInSales get = new GetExistsFieldInSales(url, r.getCabeceraInsertar());
 		return get.realizarPeticion();
 	}
 

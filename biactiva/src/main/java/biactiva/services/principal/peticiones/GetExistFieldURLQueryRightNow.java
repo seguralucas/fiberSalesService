@@ -19,8 +19,8 @@ public class GetExistFieldURLQueryRightNow extends AbstractHTTP{
 
 
 
-	public GetExistFieldURLQueryRightNow(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
+	public GetExistFieldURLQueryRightNow(String url, JSONObject cabecera) {
+		super(EPeticiones.GET, url, cabecera);
 	}
 
 

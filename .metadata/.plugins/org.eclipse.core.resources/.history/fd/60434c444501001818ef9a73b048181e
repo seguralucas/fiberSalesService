@@ -1,0 +1,31 @@
+package biactiva.services.convertidos.csvAJson;
+
+import java.util.HashMap;
+import java.util.Properties;
+
+import biactiva.services.fileHandler.ConstantesGenerales;
+import biactiva.services.singletons.RecEntAct;
+
+public class Mapeador {
+	HashMap<Properties, String> mapPropiedadesNombre;
+	private static Mapeador instance;
+	private Mapeador() {
+		this.mapPropiedadesNombre= new HashMap<Properties,String>();
+	}
+	
+	public getValorMapeado(String archivo, String valor){
+		System.out.println(ConstantesGenerales.PATH_CONFIGURACION_ENTIDADES+"/"+RecEntAct.getInstance().getCep().getEntidadNombre()+"/"+archivo);
+		return valor;
+	}
+	
+	public static synchronized Mapeador getInstance(){
+		if(instance==null)
+			instance=new Mapeador();
+		return instance;
+	}
+	
+	public static void reinicia(){
+		instance=null;
+	}
+	
+}

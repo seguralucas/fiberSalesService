@@ -20,8 +20,8 @@ public class UpdateGenericoRightNow extends AbstractHTTP{
 
 
 
-	public UpdateGenericoRightNow(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
+	public UpdateGenericoRightNow(String url, JSONObject cabecera) {
+		super(EPeticiones.UPDATE, url, cabecera);
 	}
 
 	@Override

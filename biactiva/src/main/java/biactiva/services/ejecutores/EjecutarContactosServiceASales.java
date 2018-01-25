@@ -26,18 +26,18 @@ public class EjecutarContactosServiceASales implements IEjecutar{
 		this.getMailService(id,resultadoMapeo.getJson());
 		this.getPhonesService(id,resultadoMapeo.getJson());
 		String urlFianl=r.getUrlVerificarExistencia(jsonActual);
-		GetExistsFieldInSales getContactosEnSales = new GetExistsFieldInSales(EPeticiones.GET, urlFianl, r.getCabeceraInsertar());//Puede haber más de un contacto con el mismo DNI pero distinto contact_type
+		GetExistsFieldInSales getContactosEnSales = new GetExistsFieldInSales(urlFianl, r.getCabeceraInsertar());//Puede haber más de un contacto con el mismo DNI pero distinto contact_type
 		String idSales=(String)getContactosEnSales.realizarPeticion();
 		addOrganization(jsonActual, resultadoMapeo);
 		System.out.println(resultadoMapeo);
 			if(idSales!=null){
 				System.out.println("Actualizar... "+idSales);
-				UpdateGenericoRightNow update = new UpdateGenericoRightNow(EPeticiones.UPDATE, r.getUrlInsertar(), r.getCabeceraInsertar());
+				UpdateGenericoRightNow update = new UpdateGenericoRightNow(r.getUrlInsertar(), r.getCabeceraInsertar());
 				update.realizarPeticion(idSales,resultadoMapeo);
 			}
 			else{
 				System.out.println("insertar");
-				PostGenerico post = new PostGenerico(EPeticiones.POST, r.getUrlInsertar(), r.getCabeceraInsertar());
+				PostGenerico post = new PostGenerico(r.getUrlInsertar(), r.getCabeceraInsertar());
 				post.realizarPeticion(resultadoMapeo);
 
 			}
@@ -53,11 +53,11 @@ public class EjecutarContactosServiceASales implements IEjecutar{
 			JSONObject organization=(JSONObject)jsonActual.get("organization");
 			JSONArray organizationLinks=(JSONArray)organization.get("links");
 			String urlExtraer=(String)((JSONObject)organizationLinks.get(0)).get("href");
-			GetGenericoJson getJson= new GetGenericoJson(EPeticiones.GET, urlExtraer, r.getCabeceraExtraer());
+			GetGenericoJson getJson= new GetGenericoJson(urlExtraer, r.getCabeceraExtraer());
 			JSONObject json=(JSONObject) getJson.realizarPeticion();
 			String CUIT=(String)((JSONObject)(((JSONObject)json.get("customFields")).get("CO"))).get("CUIL_CUIT");
 			String urlInsertar= mapeador.get("urlInsertar").toString().replaceAll(r.getIdentificadorAtributo()+"CLAVE"+r.getIdentificadorAtributo(), CUIT);
-			GetGenerico get= new GetGenerico(EPeticiones.GET, urlInsertar, r.getCabeceraInsertar());
+			GetGenerico get= new GetGenerico( urlInsertar, r.getCabeceraInsertar());
 			JSONArray jsonArray= (JSONArray) get.realizarPeticion();
 			Long idOrganizacionSales= (Long)((JSONObject)jsonArray.get(0)).get("PartyId");
 			jsonResultadoMapeo.put("AccountPartyId", idOrganizacionSales);	
@@ -67,7 +67,7 @@ public class EjecutarContactosServiceASales implements IEjecutar{
 	}
 		private void getMailService(Long idContactoService, JSONObject jsonContactoAInsertar){
 			ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
-			GetGenerico getListaEmails = new GetGenerico(EPeticiones.GET, r.getUrlExtraer()+"/"+idContactoService+"/emails", r.getCabeceraExtraer());
+			GetGenerico getListaEmails = new GetGenerico( r.getUrlExtraer()+"/"+idContactoService+"/emails", r.getCabeceraExtraer());
 			JSONArray jsonEmails = (JSONArray) getListaEmails.realizarPeticion();
 			for(int i=0;i<jsonEmails.size();i++){
 				JSONObject jsonObj=(JSONObject)jsonEmails.get(i);
@@ -83,7 +83,7 @@ public class EjecutarContactosServiceASales implements IEjecutar{
 		
 		private void getPhonesService(Long idContactoService, JSONObject jsonContactoAInsertar){
 			ConfiguracionEntidadParticular r= RecEntAct.getInstance().getCep();
-			GetGenerico getListaPhones = new GetGenerico(EPeticiones.GET, r.getUrlExtraer()+"/"+idContactoService+"/phones", r.getCabeceraExtraer());
+			GetGenerico getListaPhones = new GetGenerico( r.getUrlExtraer()+"/"+idContactoService+"/phones", r.getCabeceraExtraer());
 			JSONArray jsonPhones = (JSONArray) getListaPhones.realizarPeticion();
 			for(int i=0;i<jsonPhones.size();i++){
 				JSONObject jsonObj=(JSONObject)jsonPhones.get(i);

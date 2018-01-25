@@ -1,0 +1,8 @@
+{
+
+	"a.OrganizationDEO_NDeEmpleados_c"{
+			"tipo":"JSON",
+			"mapeador":"NDeEmpleados.properties"
+	}
+
+}

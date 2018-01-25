@@ -57,8 +57,8 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 	} 
 	
 	protected void insertarValorJson(String cabecera, String valor) throws Exception{ 
-
-		Object valorAlterado=alterarValor(cabecera,valor);
+		
+		Object valorAlterado=valor==null?null:alterarValor(cabecera,valor);
 		RecuperadorPropierdadesJson formato= RecEntAct.getInstance().getCep().getRecuperadorPropiedadesJson();
 		if(valorAlterado!=null && formato.isGetIdFromUrl(cabecera))
 			valorAlterado=getIdFromUrl(valorAlterado,cabecera);
@@ -173,7 +173,7 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 			url=url.replaceAll(identificador+cabecera+identificador, valor.toString());
 			AbstractHTTP get=null;
 			if(claseExtractora.equalsIgnoreCase("GetExistFieldURLQueryRightNow"))
-					get= new GetExistFieldURLQueryRightNow(EPeticiones.GET, url, cabeceraPeticion);
+					get= new GetExistFieldURLQueryRightNow(url, cabeceraPeticion);
 		//	System.out.println(get.realizarPeticion());
 			return get.realizarPeticion();
 		}catch(Exception e){
@@ -238,7 +238,7 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 		ConfiguracionEntidadParticular r = RecEntAct.getInstance().getCep();
 		for(String url:listaUrlEliminar){
 			url=url.replaceAll(r.getIdentificadorAtributo()+"id"+r.getIdentificadorAtributo(), id);
-			EliminarGenericoSinLog del = new EliminarGenericoSinLog(EPeticiones.DELETE, url, r.getCabeceraInsertar());
+			EliminarGenericoSinLog del = new EliminarGenericoSinLog( url, r.getCabeceraInsertar());
 			del.realizarPeticion();
 		}
 	}
@@ -300,6 +300,10 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 	protected Boolean procesarBooleano(String cabecera, String valor){
 		Boolean resultado= insertarTrueOFalse(valor);
 		return  insertarFalsoSiNull(cabecera,resultado);
+	}
+	
+	protected JSONObject procesarJson(String cabecera, String valor) throws Exception{
+		return JsonUtils.convertir(valor);
 	}
 	
 	protected String borrarCaracteresNoNumericos(String cabecera, String valor){

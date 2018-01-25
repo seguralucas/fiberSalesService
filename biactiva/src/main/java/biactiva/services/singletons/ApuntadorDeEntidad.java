@@ -2,6 +2,7 @@ package biactiva.services.singletons;
 
 import java.util.HashMap;
 
+import biactiva.services.convertidos.csvAJson.Mapeador;
 import biactiva.services.singletons.entidadesARecuperar.PeticionEntidad;
 import biactiva.services.util.ManejadorFechaYHoraLog;
 
@@ -40,6 +41,7 @@ public class ApuntadorDeEntidad {
     	RecEntAct.getInstance().reiniciar();
 		ManejadorFechaYHoraLog.reiniciar();
 		PeticionEntidad.reiniciar();
+		Mapeador.reinicia();
     	return true;
     	
     }

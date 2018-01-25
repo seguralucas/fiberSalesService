@@ -1,0 +1,23 @@
+package biactiva.services.convertidos.csvAJson;
+
+import java.util.HashMap;
+import java.util.Properties;
+
+public class Mapeador {
+	HashMap<Properties, String> mapPropiedadesNombre;
+	private static Mapeador instance;
+	private Mapeador() {
+		this.mapPropiedadesNombre= new HashMap<Properties,String>();
+	}
+	
+	public static synchronized Mapeador getInstance(){
+		if(instance==null)
+			instance=new Mapeador();
+		return instance;
+	}
+	
+	public static void reinicia(){
+		mapeador=null;
+	}
+	
+}

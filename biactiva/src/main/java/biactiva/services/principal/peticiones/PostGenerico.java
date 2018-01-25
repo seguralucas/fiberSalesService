@@ -22,8 +22,8 @@ public class PostGenerico extends AbstractHTTP{
 
 
 
-	public PostGenerico(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
+	public PostGenerico(String url, JSONObject cabecera) {
+		super(EPeticiones.POST, url, cabecera);
 	}
 
 	@Override

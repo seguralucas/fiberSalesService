@@ -49,7 +49,6 @@ public class ConstantesGenerales {
 			PATH_EJECUCION=PATH_EJECUCION.substring(0, PATH_EJECUCION.length());
 			System.out.println(PATH_EJECUCION);
 			PATH_CONFIGURACION_ENTIDADES=PATH_EJECUCION+"/Configuracion/entidades";
-			PATH_CONFIGURACION_ENTIDADES=PATH_EJECUCION+"/Configuracion/entidades";
 			PATH_CONFIGURACION=PATH_EJECUCION+"/Configuracion";
 			PATH_PETICIONES_GET=PATH_EJECUCION+"/Configuracion/peticiones/GET.properties";
 			PATH_PETICIONES_UPDATE=PATH_EJECUCION+"/Configuracion/peticiones/UPDATE.properties";

@@ -22,12 +22,12 @@ public class EjecutarContactosSalesAService implements IEjecutar {
 		String urlFianl=r.getUrlVerificarExistencia(jsonActual);
 		String idContacto=null;
 		if(urlFianl!=null){
-			GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(EPeticiones.GET,urlFianl,r.getCabeceraInsertar());
+			GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(urlFianl,r.getCabeceraInsertar());
 			idContacto=(String)get.realizarPeticion();
 		}
 		addOrganization(jsonActual,resultadoMapeo);
 		if(idContacto==null){
-			PostGenerico post= new PostGenerico(EPeticiones.POST,r.getUrlInsertar(),r.getCabeceraInsertar());
+			PostGenerico post= new PostGenerico(r.getUrlInsertar(),r.getCabeceraInsertar());
 			System.out.println(resultadoMapeo);
 			System.out.println("Insertando");
 			post.realizarPeticion( resultadoMapeo );
@@ -36,7 +36,7 @@ public class EjecutarContactosSalesAService implements IEjecutar {
 			System.out.println(resultadoMapeo);
 			System.out.println("Actualizando..");
 			resultadoMapeo.deleteUrlEliminar(idContacto);
-			UpdateGenericoRightNow update= new UpdateGenericoRightNow(EPeticiones.UPDATE, r.getUrlInsertar(),r.getCabeceraInsertar());
+			UpdateGenericoRightNow update= new UpdateGenericoRightNow( r.getUrlInsertar(),r.getCabeceraInsertar());
 			update.realizarPeticion(idContacto, resultadoMapeo);
 		}
 		System.out.println("************");		
@@ -51,13 +51,13 @@ public class EjecutarContactosSalesAService implements IEjecutar {
 			JSONObject mapeador = rpj.getMapearOrganizacion("AccountPartyId");
 			String accountParyId=jsonActual.get("AccountPartyId").toString();
 			String urlExtraer= mapeador.get("urlExtraer").toString().replaceAll(r.getIdentificadorAtributo()+"CLAVE"+r.getIdentificadorAtributo(), accountParyId);
-			GetGenerico get= new GetGenerico(EPeticiones.GET, urlExtraer, r.getCabeceraExtraer());
+			GetGenerico get= new GetGenerico( urlExtraer, r.getCabeceraExtraer());
 			JSONArray jsonArray= (JSONArray) get.realizarPeticion();
 			JSONObject json=(JSONObject) jsonArray.get(0);
 			String CUIT=json.get("OrganizationDEO_NDocumento_c").toString();
 			String urlInsertar= mapeador.get("urlInsertar").toString().replaceAll(r.getIdentificadorAtributo()+"CLAVE"+r.getIdentificadorAtributo(), CUIT);
 
-			get= new GetGenerico(EPeticiones.GET, urlInsertar, r.getCabeceraInsertar());
+			get= new GetGenerico(urlInsertar, r.getCabeceraInsertar());
 			jsonArray= (JSONArray) get.realizarPeticion();
 			json=(JSONObject) jsonArray.get(0);
 			jsonResultadoMapeo.put("organization", JsonUtils.convertir("{\"id\":"+json.get("id")+"}"));

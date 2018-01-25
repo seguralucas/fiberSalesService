@@ -27,6 +27,7 @@ public class RecuperadorPropierdadesJson {
 	public static final String PROPIEDAD_FALSO_SI_NULO="falsoSiNulo";
 	public static final String PROPIEDAD_MAPEAR_ORGANIZACION="MapearOrganizacion";
 	public static final String PROPIEDAD_BORRAR_DE_URL="borrarDeUrl";
+	public static final String PROPIEDAD_MAPEADOR="mapeador";
 
 	public static final String PROPIEDAD_VALORES_PERMITIDOS="valoresPermitidos";
 	public static final String PROPIEDAD_VALORES_PERMITIDOS_LISTA="lista";
@@ -36,6 +37,7 @@ public class RecuperadorPropierdadesJson {
 	public static final String TIPO_ENTERO="entero";
 	public static final String TIPO_CADENA="cadena";
 	public static final String TIPO_BOOLEANO="booleano";
+	public static final String TIPO_JSON="json";
 
 
 	
@@ -144,8 +146,17 @@ public class RecuperadorPropierdadesJson {
 		JSONObject j= this.getPropiedades(key);
 		String aux=j==null?null:(String)j.get(PROPIEDAD_BORRAR_DE_URL);
 		return aux;
-		
-	}public boolean isBorrarDeUrl(String key){
+	}
+	
+	public String getMapeador(String key){
+		JSONObject j= this.getPropiedades(key);
+		String aux=j==null?null:(String)j.get(PROPIEDAD_MAPEADOR);
+		return aux;
+	}
+	
+	
+	
+	public boolean isBorrarDeUrl(String key){
 		JSONObject j= this.getPropiedades(key);
 		Object aux=j==null?null:j.get(PROPIEDAD_BORRAR_DE_URL);
 		return aux!=null;
@@ -177,6 +188,12 @@ public class RecuperadorPropierdadesJson {
 		Object aux=j==null?null:j.get(PROPIEDAD_FALSO_SI_NULO);
 		return aux!=null;
 	}
+	public boolean isMapeador(String key){
+		JSONObject j= this.getPropiedades(key);
+		Object aux=j==null?null:j.get(PROPIEDAD_MAPEADOR);
+		return aux!=null;
+	}
+	
 	
 	
 	

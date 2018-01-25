@@ -9,9 +9,8 @@ import biactiva.services.convertidos.csvAJson.AbstractJsonRestEstructura;
 
 public class GetExistsFieldInSales extends AbstractHTTP{
 
-	public GetExistsFieldInSales(EPeticiones peticion, String url, JSONObject cabecera) {
-		super(peticion, url, cabecera);
-		// TODO Auto-generated constructor stub
+	public GetExistsFieldInSales(String url, JSONObject cabecera) {
+		super(EPeticiones.GET, url, cabecera);
 	}
 
 	@Override

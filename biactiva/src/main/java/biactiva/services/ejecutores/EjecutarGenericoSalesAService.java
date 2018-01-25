@@ -17,18 +17,19 @@ public class EjecutarGenericoSalesAService implements IEjecutar{
 		String urlVerificarExistencia=r.getUrlVerificarExistencia(jsonActual);
 		String id=null;
 		if(urlVerificarExistencia!=null){
-			GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(EPeticiones.GET,urlVerificarExistencia,r.getCabeceraInsertar());
+			GetExistFieldURLQueryRightNow get = new GetExistFieldURLQueryRightNow(urlVerificarExistencia,r.getCabeceraInsertar());
 			id=(String)get.realizarPeticion();
 		}
+		System.out.println(resultadoMapeo);
 		if(id==null){
 			System.out.println("Insertando...");
-			PostGenerico post= new PostGenerico(EPeticiones.POST,r.getUrlInsertar(),r.getCabeceraInsertar());
-			post.realizarPeticion( resultadoMapeo );
+			PostGenerico post= new PostGenerico(r.getUrlInsertar(),r.getCabeceraInsertar());
+//			post.realizarPeticion( resultadoMapeo );
 		}
 		else{
 			System.out.println("Actualizando...");
-			UpdateGenericoRightNow update= new UpdateGenericoRightNow(EPeticiones.UPDATE,r.getUrlInsertar(),r.getCabeceraInsertar());
-			update.realizarPeticion( id, resultadoMapeo);
+			UpdateGenericoRightNow update= new UpdateGenericoRightNow(r.getUrlInsertar(),r.getCabeceraInsertar());
+//			update.realizarPeticion( id, resultadoMapeo);
 		}
 	}
 }
