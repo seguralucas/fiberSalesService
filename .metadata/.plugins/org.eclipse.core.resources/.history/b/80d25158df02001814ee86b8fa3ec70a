@@ -1,0 +1,11 @@
+{
+"OrganizationName":"#name#",
+"OrganizationDEO_NDocumento_c":"#customFields.CO.CUIL_CUIT#",
+"OrganizationDEO_NDeEmpleados_c":"#customFields.c.organizationdeo_ndeempleados_c#",
+"OrganizationDEO_TipoDeCliente_c":"#customFields.c.organizationdeo_tipodecliente#",
+"OrganizationDEO_NSucursales_c":"#customFields.c.organizationdeo_nsucursales_c#",
+"OrganizationDEO_Email_c":"#customFields.c.organizationdeo_email_c#",
+"OrganizationDEO_TipoDeCliente_c":"#customFields.c.organizationdeo_tipodecliente#",
+
+}
+

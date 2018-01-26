@@ -303,7 +303,7 @@ public abstract class AbstractJsonRestEstructura extends JSONObject{
 	}
 	
 	protected JSONObject procesarJson(String cabecera, String valor) throws Exception{
-		return JsonUtils.convertir(valor);
+		return JsonUtils.convertir(valor,true);
 	}
 	
 	protected String borrarCaracteresNoNumericos(String cabecera, String valor){

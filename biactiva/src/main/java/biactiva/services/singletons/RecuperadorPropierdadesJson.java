@@ -77,8 +77,6 @@ public class RecuperadorPropierdadesJson {
 		}*/
 	}
 	
-
-	
 	public boolean isBorrarCarNoNumericos(String key){
 		JSONObject j= this.getPropiedades(key);
 		Object aux=j==null?null:j.get(PROPIEDAD_BORRAR_CAR_NO_NUMERICOS);
@@ -193,10 +191,6 @@ public class RecuperadorPropierdadesJson {
 		Object aux=j==null?null:j.get(PROPIEDAD_MAPEADOR);
 		return aux!=null;
 	}
-	
-	
-	
-	
 	
 	public JSONObject getJsonPropiedades() {
 		return jsonPropiedades;

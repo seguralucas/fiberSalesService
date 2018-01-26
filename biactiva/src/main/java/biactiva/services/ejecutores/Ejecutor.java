@@ -51,6 +51,7 @@ public class Ejecutor {
 		
 	public Object ejecutorServiceASales() throws Exception{
 		ConfiguracionEntidadParticular r=RecEntAct.getInstance().getCep();
+		EjecutarGenericoServiceASales ejecutar= new EjecutarGenericoServiceASales();		
 		AbstractHTTP getGenerico= new GetGenerico(r.getUrlExtraer(),RecEntAct.getInstance().getCep().getCabeceraExtraer());
 		JSONArray jArray= (JSONArray)getGenerico.realizarPeticion(null,null,r.getParametrosUrl());
 		for(int i=0;i<jArray.size();i++){
@@ -58,7 +59,7 @@ public class Ejecutor {
 			JSONObject entidad=(JSONObject)getGenerico.realizarPeticion(String.valueOf(id));
 			ConvertirJsonAJson conv= new ConvertirJsonAJson(r,entidad);
 			AbstractJsonRestEstructura resultadoMapeo=conv.convertir();
-			System.out.println(resultadoMapeo);
+			ejecutar.procesar(resultadoMapeo, entidad);
 		}
 		return jArray.size();	
 	}

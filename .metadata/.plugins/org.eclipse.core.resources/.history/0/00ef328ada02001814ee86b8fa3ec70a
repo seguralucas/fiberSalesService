@@ -1,0 +1,9 @@
+{
+	"customFields.c.organizationdeo_ndeempleados_c":{
+		"tipo":"json",
+		"mapeador":"NTipoDeCliente.properties"
+		
+	}
+	
+	
+}

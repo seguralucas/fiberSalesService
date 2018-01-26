@@ -1,0 +1,7 @@
+{
+"OrganizationName":"#name#",
+"OrganizationDEO_NDocumento_c":"#customFields.CO.CUIL_CUIT#",
+"aaa":"#customFields.c.organizationdeo_ndeempleados_c#",
+"bbb":"#customFields.c.organizationdeo_tipodecliente#"
+}
+

@@ -5,7 +5,36 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2018-01-24T22:47:47Z</updated>
+  <updated>2018-01-25T19:58:48Z</updated>
+  <entry>
+    <title>Spring Session 2.0.1 Released</title>
+    <link rel="alternate" href="https://spring.io/blog/2018/01/25/spring-session-2-0-1-released" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Rob Winch</name>
+    </author>
+    <id>tag:spring.io,2018-01-25:3146</id>
+    <updated>2018-01-25T19:58:48Z</updated>
+    <content type="html">&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;em&gt;This post was authored by &lt;a href="https://github.com/vpavic"&gt;Vedran Pavi?&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;On behalf of the community I&amp;#8217;m pleased to announce the release of &lt;a href="https://docs.spring.io/spring-session/docs/2.0.1.RELEASE/reference/html5/"&gt;Spring Session 2.0.1.RELEASE&lt;/a&gt;. This maintenance release is focused primarily on addressing a classloading related regression when using a Redis backed session store in combination with Spring Boot&amp;#8217;s DevTools.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;You can find the complete details of the release in the &lt;a href="https://github.com/spring-projects/spring-session/milestone/31?closed=1"&gt;changelog&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h1 id="feedback-please" class="sect0"&gt;&lt;a class="anchor" href="#feedback-please"&gt;&lt;/a&gt;Feedback Please&lt;/h1&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;If you have feedback on this release, I encourage you to reach out via &lt;a href="https://stackoverflow.com/questions/tagged/spring-session"&gt;StackOverflow&lt;/a&gt;, &lt;a href="https://github.com/spring-projects/spring-session/issues"&gt;GitHub Issues&lt;/a&gt;, or via the comments section. You can also ping Rob &lt;a href="https://twitter.com/rob_winch"&gt;@rob_winch&lt;/a&gt;, Joe &lt;a href="https://twitter.com/joe_grandja"&gt;@joe_grandja&lt;/a&gt;, or me &lt;a href="https://twitter.com/vedran_pavic"&gt;@vedran_pavic&lt;/a&gt; on Twitter.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Of course the best feedback comes in the form of &lt;a href="https://github.com/spring-projects/spring-session/blob/2.0.1.RELEASE/CONTRIBUTING.adoc"&gt;contributions&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;a href="https://projects.spring.io/spring-session/"&gt;Project Site&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-session/docs/2.0.1.RELEASE/reference/html5/"&gt;Reference&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-session"&gt;Help&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;</content>
+  </entry>
   <entry>
     <title>Spring Cloud Data Flow 1.3.0.RC1 released</title>
     <link rel="alternate" href="https://spring.io/blog/2018/01/24/spring-cloud-data-flow-1-3-0-rc1-released" />
@@ -98,8 +127,8 @@ java -jar spring-cloud-dataflow-shell-1.3.0.RC1.jar --dataflow.mode=skipper&lt;/
       <name>Mark Paluch</name>
     </author>
     <id>tag:spring.io,2018-01-24:3144</id>
-    <updated>2018-01-24T15:28:34Z</updated>
-    <content type="html">&lt;p&gt;On behalf of the Spring Data team, I’d like to announce the Ingalls SR10 and Kay SR3 service releases. The Kay service release ships on top of the just-released Spring Framework 4.3.14 and in preparation of the upcoming Spring Boot 1.5.10 release. The Ingalls service release picks up Spring Framework 5.0.3 in and will be picked up by Spring Boot 2.0 RC1 for your convenience.&lt;/p&gt;
+    <updated>2018-01-24T15:28:00Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the Spring Data team, I’d like to announce the Ingalls SR10 and Kay SR3 service releases. The Ingalls service release ships on top of the just-released Spring Framework 4.3.14 and in preparation of the upcoming Spring Boot 1.5.10 release. The Kay service release picks up Spring Framework 5.0.3 in and will be picked up by Spring Boot 2.0 RC1 for your convenience.&lt;/p&gt;
 &lt;p&gt;Both releases ship with 105 tickets fixed in total and are recommended upgrades to all users of the Ingalls and Kay release trains. You can find all details within the linked changelogs.&lt;/p&gt;&lt;h2&gt;&lt;a href="#spring-data-ingalls-sr10" class="anchor" name="spring-data-ingalls-sr10"&gt;&lt;/a&gt;Spring Data Ingalls SR10&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;Spring Data Commons 1.13.10 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-commons/1.13.10.RELEASE"&gt;Artifacts&lt;/a&gt; - &lt;a href="http://docs.spring.io/spring-data/commons/docs/1.13.10.RELEASE/api"&gt;JavaDocs&lt;/a&gt; - &lt;a href="http://docs.spring.io/spring-data/commons/docs/1.13.10.RELEASE/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="http://docs.spring.io/spring-data/commons/docs/1.13.10.RELEASE/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
@@ -1390,16 +1419,5 @@ dependencies {&#xD;
   &lt;li&gt;Dan Newton looks at how to configure startup and shutdown &lt;a href="https://lankydanblog.com/2017/12/03/startup-and-shutdown-scripts-in-spring-data-cassandra/"&gt;scripts for Spring Data Cassandra&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Spring community legend and Okta advocate Matt Raible looks at how to build a CRUD &lt;a href="https://developer.okta.com/blog/2017/12/04/basic-crud-angular-and-spring-boot"&gt;application with Angular 5.0 and Spring boot 2.0&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;</content>
-  </entry>
-  <entry>
-    <title>Dependency Management Plugin 1.0.4.RELEASE</title>
-    <link rel="alternate" href="https://spring.io/blog/2017/12/12/dependency-management-plugin-1-0-4-release" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Andy Wilkinson</name>
-    </author>
-    <id>tag:spring.io,2017-12-12:3126</id>
-    <updated>2017-12-12T13:06:46Z</updated>
-    <content type="html">&lt;p&gt;I am pleased to announce that &lt;a href="https://github.com/spring-gradle-plugins/dependency-management-plugin"&gt;Gradle dependency management plugin&lt;/a&gt; 1.0.4.RELEASE is now available from Maven Central, Bintray, and the &lt;a href="https://plugins.gradle.org/plugin/io.spring.dependency-management"&gt;Gradle Plugin Portal&lt;/a&gt;. This maintenance release fixes a &lt;a href="https://github.com/spring-gradle-plugins/dependency-management-plugin/milestone/24?closed=1"&gt;handful of issues&lt;/a&gt; and is a recommended upgrade for all users of the plugin.&lt;/p&gt;</content>
   </entry>
 </feed>

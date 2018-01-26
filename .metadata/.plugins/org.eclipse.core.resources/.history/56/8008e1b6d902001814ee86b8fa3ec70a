@@ -1,0 +1,13 @@
+{
+	"name":{
+		"tipo":"cadena"
+	},
+	"customFields.CO.CUIL_CUIT":{
+		"tipo":"cadena"	
+	},	
+	"customFields.c.organizationdeo_ndeempleados_c":{
+		"tipo":"json"	
+	}
+	
+	
+}

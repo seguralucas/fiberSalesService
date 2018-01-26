@@ -33,7 +33,7 @@ public class ConvertirJsonAJson {
 				else
 					jsonAbstract.agregarCampo(key.toString(), (String)o);
 			}catch(Exception e){
-//				e.printStackTrace();
+				e.printStackTrace();
 				CSVHandler.getInstance().escribirErrorException(e);
 				System.out.println(e.getMessage());
 			}

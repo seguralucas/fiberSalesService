@@ -25,13 +25,7 @@ public class JsonUtils {
 	}
 	
 	public static JSONObject convertir(BufferedReader in) throws Exception{
-		StringBuilder builder = new StringBuilder();
-		String line;
-        while ((line = in.readLine()) != null) {
-            builder.append(line);
-        }
-        String jsonString = builder.toString();
-		return convertir(jsonString);
+		return convertir(in,false);
 	}
 	
 	public static JSONObject convertir(BufferedReader in, boolean devolverNullXExcepcion) throws Exception{
@@ -57,8 +51,14 @@ public class JsonUtils {
 	}
 	
 	public static JSONObject convertir(String in) throws Exception{
+		return convertir(in,false);
+	}
+	
+	public static JSONObject convertir(String in, boolean devolverNullXExcepcion) throws Exception{
 		JSONParser parser = new JSONParser();
-		return (JSONObject) parser.parse(in);
+		if(devolverNullXExcepcion)
+			try{return (JSONObject) parser.parse(in);}catch(Exception e){return null;}
+		return  (JSONObject) parser.parse(in);
 	}
 	
 	public static JSONArray convertirArray(String in) throws Exception{
