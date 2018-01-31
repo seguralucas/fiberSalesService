@@ -5,16 +5,72 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2018-01-25T19:58:48Z</updated>
+  <updated>2018-01-30T02:55:55Z</updated>
+  <entry>
+    <title>CVE-2017-8030: Spring Security 5.0.1, 4.2.4, 4.1.5 Released</title>
+    <link rel="alternate" href="https://spring.io/blog/2018/01/30/cve-2017-8030-spring-security-5-0-1-4-2-4-4-1-5-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Rob Winch</name>
+    </author>
+    <id>tag:spring.io,2018-01-29:3148</id>
+    <updated>2018-01-30T02:55:55Z</updated>
+    <content type="html">&lt;div class="paragraph"&gt;
+&lt;p&gt;We have released Spring Security 5.0.1, 4.2.4, and 4.1.5 to address &lt;a href="https://pivotal.io/security/cve-2017-8030"&gt;CVE-2017-8030: Security bypass with static resources&lt;/a&gt; Users are encouraged to update immediately.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;a href="http://projects.spring.io/spring-security/"&gt;Project Site&lt;/a&gt; |
+&lt;a href="http://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/"&gt;Reference&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-security"&gt;Help&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Messaging Projects Maintenance Releases - Integration, AMQP, Kafka</title>
+    <link rel="alternate" href="https://spring.io/blog/2018/01/29/spring-messaging-projects-maintenance-releases-integration-amqp-kafka" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Gary Russell</name>
+    </author>
+    <id>tag:spring.io,2018-01-28:3147</id>
+    <updated>2018-01-29T20:15:28Z</updated>
+    <content type="html">&lt;div class="paragraph"&gt;
+&lt;p&gt;We are pleased to announce the availability of the following maintenance releases; users are encouraged to upgrade at the earliest opportunity.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Spring Integration - &lt;a href="https://jira.spring.io/jira/secure/ReleaseNote.jspa?projectId=10121&amp;amp;version=16627"&gt;5.0.1&lt;/a&gt; and &lt;a href="https://jira.spring.io/jira/secure/ReleaseNote.jspa?projectId=10121&amp;amp;version=16631"&gt;4.3.14&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spring Integration for Apache Kafka &lt;a href="https://github.com/spring-projects/spring-integration-kafka/releases/tag/v3.0.1.RELEASE"&gt;3.0.1&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spring for Apache Kafka - &lt;a href="https://github.com/spring-projects/spring-kafka/releases/tag/v2.1.2.RELEASE"&gt;2.1.2&lt;/a&gt;, &lt;a href="https://github.com/spring-projects/spring-kafka/releases/tag/v2.0.3.RELEASE"&gt;2.0.3&lt;/a&gt; and &lt;a href="https://github.com/spring-projects/spring-kafka/releases/tag/v1.3.3.RELEASE"&gt;1.3.3&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spring AMQP - &lt;a href="https://jira.spring.io/jira/secure/ReleaseNote.jspa?projectId=10450&amp;amp;version=16625"&gt;2.0.2&lt;/a&gt; and &lt;a href="https://jira.spring.io/jira/secure/ReleaseNote.jspa?projectId=10450&amp;amp;version=16624"&gt;1.7.6&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Spring Integration 4.3.13, Spring AMQP 1.7.6 will be used in the upcoming Spring Boot 1.5.10 release.
+Spring Integration 5.0.1, Spring AMQP 2.0.2 and Spring for Apache Kafka 2.1.2 will be used in the upcoming release candidate for Spring Boot 2.0.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;See the respective project pages at &lt;a href="https://spring.io/projects"&gt;spring.io/projects&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The Spring Integration for Apache Kafka documentation is in the Spring for Apache Kafka Reference Manual.&lt;/p&gt;
+&lt;/div&gt;</content>
+  </entry>
   <entry>
     <title>Spring Session 2.0.1 Released</title>
     <link rel="alternate" href="https://spring.io/blog/2018/01/25/spring-session-2-0-1-released" />
-    <category term="engineering" label="Engineering" />
+    <category term="releases" label="Releases" />
     <author>
       <name>Rob Winch</name>
     </author>
     <id>tag:spring.io,2018-01-25:3146</id>
-    <updated>2018-01-25T19:58:48Z</updated>
+    <updated>2018-01-25T19:58:00Z</updated>
     <content type="html">&lt;div class="paragraph"&gt;
 &lt;p&gt;&lt;em&gt;This post was authored by &lt;a href="https://github.com/vpavic"&gt;Vedran Pavi?&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;/div&gt;
@@ -1367,57 +1423,6 @@ dependencies {&#xD;
   &lt;li&gt;InfoQ&amp;rsquo;s Victor Grazi had a nice interview with &lt;a href="https://www.infoq.com/news/2017/12/s1p-Conference-reactor-webflux"&gt;Reactor engineer Simon Basle and marketing manager Pieter Humphrey&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Spring ninja Thomas Risberg put together a &lt;a href="https://github.com/trisberg/s1p2017-jdbc/tree/master/jdbc-writer"&gt;cool Project Riff - our recently announced serverless platform - demo that you can inspect here&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;the Open at Microsoft blog looks at Pivotal Cloud Foundry&amp;rsquo;s latest &lt;a href="https://open.microsoft.com/2017/12/13/microsoft-open-source-weekly-kubecon/"&gt;release supporting Microsoft Azure&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Tips: Bootiful Banners</title>
-    <link rel="alternate" href="https://spring.io/blog/2017/12/15/spring-tips-bootiful-banners" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2017-12-15:3128</id>
-    <updated>2017-12-15T17:59:57Z</updated>
-    <content type="html">&lt;p&gt;Speaker: &lt;a href="https://www.twitter.com/starbuxman"&gt;Josh Long&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Hi Spring fans! in this installment of Spring Tips - fresh off of SpringOne Platform 2017! - we look at arguably the most important Spring Boot feature: banners!&lt;/p&gt;
-&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/nh2seTeGw5A" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen&gt;&lt;/iframe&gt;</content>
-  </entry>
-  <entry>
-    <title>This Week in Spring, December 12th, 2017</title>
-    <link rel="alternate" href="https://spring.io/blog/2017/12/12/this-week-in-spring-december-12th-2017" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2017-12-12:3127</id>
-    <updated>2017-12-12T16:12:00Z</updated>
-    <content type="html">&lt;p&gt;Hi Spring fans and welcome to another installment of &lt;em&gt;This Week in Spring&lt;/em&gt;! I&amp;rsquo;m still reeling from the &lt;em&gt;incredible&lt;/em&gt;, larger-and-better-than-ever SpringOne Platform 2017 event last week! Ouch! My brain&amp;hellip; &lt;/p&gt;
-&lt;p&gt;This week I&amp;rsquo;m speaking to customers and am presenting at two User Groups (in &lt;a href="https://www.meetup.com/AtlantaSpring/events/242466199/"&gt;Atlanta, GA&lt;/a&gt; and &lt;a href="http://java.ociweb.com/javasig/"&gt;St. Louis, MO&lt;/a&gt;) on testing and all things Spring with my &lt;a href="http://twitter.com/mariogray"&gt;new teammate Mario Gray (@mariogray)&lt;/a&gt;! Join us. &lt;/p&gt;
-&lt;p&gt;This Sunday, it&amp;rsquo;s off to London for a few days customer visits. If you&amp;rsquo;re around, &lt;a href="httP://twitter.com/Starbuxman"&gt;don&amp;rsquo;t hesitate to say hello (@starbuxman)&lt;/a&gt;.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Last week, in the final &lt;em&gt;Spring Tips&lt;/em&gt; installment for this third season, &lt;a href="https://spring.io/blog/2017/12/04/spring-tips-spring-tool-suite-4"&gt;I looked at the amazing new tooling in Spring Tool Suite 4, VS Code&lt;/a&gt; (and Atom).&lt;/li&gt;
-  &lt;li&gt;Spring Boot, tooling and dependency management legend Andy Wilkinson &lt;a href="https://spring.io/blog/2017/12/12/dependency-management-plugin-1-0-4-release"&gt;just announced the dependency management 1.0.4 RELEASE&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Simon Wardley gave a very nice SpringOne 2017 keynote introducing the concept of value stream mapping. &lt;a href="https://content.pivotal.io/springone-platform-2017/simon-wardley"&gt;This is a must watch&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://lankydanblog.com/2017/11/12/multiple-keyspaces-using-a-single-spring-data-cassandratemplate/"&gt;Multiple keyspaces using a single Spring Data CassandraTemplate – Lanky Dan Dev Blog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="https://lankydanblog.com/2017/11/26/more-complex-modelling-with-spring-data-cassandra/"&gt;More complex modelling with Spring Data Cassandra – Lanky Dan Dev Blog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;I also liked Dan Newton&amp;rsquo;s look at using reactive &lt;a href="https://lankydanblog.com/2017/12/11/reactive-streams-with-spring-data-cassandra/"&gt;streams with Spring Data Cassandra&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;I enjoyed &lt;a href="http://twitter.com/meaghnk"&gt;Meaghan Kjelland? (@meaghnk)&lt;/a&gt;&amp;rsquo;s SpringOne talk and &lt;a href="https://github.com/mkjelland/spring-boot-postgres-on-k8s-sample/blob/master/README.md"&gt;demo&lt;/a&gt; on &lt;a href="https://twitter.com/meaghnk/status/939895320028233728"&gt;deploying Spring Boot and PostgresSQL to Kubernetes&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;I liked &lt;a href="http://www.bryanfriedman.com/2017/12/08/five-things-that-blew-my-mind-at-springone-platform-2017/?_lrsc=44a561fa-95a4-41b3-8888-0e707ca8a558"&gt;Bryan Friedman&amp;rsquo;s SpringOne Platform 2017 wrapup&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;a href="http://twitter.com/mraible"&gt;Matt Raible&lt;/a&gt; and I were interviewed at Devoxx Belgium on &lt;a href="https://www.youtube.com/watch?v=wUL02eI0eB4"&gt;the topic of Progressive Web Applications&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;Built to Adapt&lt;/em&gt; was at SpringOne Platform 2017 and they &lt;a href="https://builttoadapt.io/the-contagious-platform-71a4ad40cf7a"&gt;did an interview with Cerner&amp;rsquo;s Rob Rose&lt;/a&gt;. Rob Rose is a brilliant leader and technologist &lt;a href="https://builttoadapt.io/the-contagious-platform-71a4ad40cf7a"&gt;so this is well worth a watch&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Dormain Drewitz&amp;rsquo; looks &lt;a href="https://medium.com/@dormaindrewitz/digital-transformation-anti-patterns-81f6190e2c4c?source=twitterShare-66b327076f33-1512834888"&gt;at digital transformation anti-patterns&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Jared Ruckle &lt;a href="https://medium.com/@jruckle_27729/a-journey-through-springone-platform-2017-6e67bdfb2c7f?_lrsc=74eeaa75-826f-4d58-87b5-8c853fec8db7"&gt;looks at SpringOne Platform 2017&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;RedMonk&amp;rsquo;s James Governor &lt;a href="https://redmonk.com/jgovernor/2017/12/07/the-world-caught-up-and-the-future-happened-what-now-my-talk-at-springone-2017/?_lrsc=e8786bce-5747-4c12-ab9e-9b44ea83d657"&gt;revisits his SpringOne Platform 2017 keynote&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;You should watch computing legend and Microsoft luminary Eric Gamma&amp;rsquo;s SpringOne Platform 2017 keynote. He talks about &lt;a href="https://www.youtube.com/watch?v=Vs3AGfeuNKU&amp;app=desktop"&gt;his work on tooling, and even mentions Spring Tool Suite&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Axel Fontaine has just &lt;a href="https://flywaydb.org/blog/flyway-5.0.0"&gt;announced Flyway 5.0.0, which supports database migrations&lt;/a&gt;. Flyway is a convenient arrow in any Spring Boot developers&amp;rsquo;s quill.&lt;/li&gt;
-  &lt;li&gt;I loved this InfoQ roundup of &lt;a href="https://www.infoq.com/news/2017/12/SpringOne-2017-conference-day1"&gt;SpringOne Platform 2017&lt;/a&gt;, day one.&lt;/li&gt;
-  &lt;li&gt;Last week, one of the largest new features demonstrated in Spring Boot was the introduction &lt;em&gt;of animated ASCII art&lt;/em&gt;, as &lt;a href="https://twitter.com/jkuipers/status/938541184091410432"&gt;community member Joris Kuipers demonstrates here&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;James Ma looks at some of &lt;a href="https://medium.com/concourse-ci/concourse-at-springone-2017-87c3ccac3b68?_lrsc=41748487-4b31-4750-b134-207d0ae83b92"&gt;the folks using Concourse CI&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;This is interesting - it&amp;rsquo;s a set of sample applications that &lt;a href="https://github.com/IBM/greeting-cloudant-spring/blob/master/README.md"&gt;demonstrate Spring Boot integrations with IBM middleware&lt;/a&gt; like Cloudant, OpenLiberty and more.&lt;/li&gt;
-  &lt;li&gt;Richard Seroter reviews &lt;a href="https://www.linkedin.com/pulse/springone-platform-day-1-its-learning-richard-seroter"&gt;the SpringOne Platform 2017 day one keynote&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Microsoft talks about their starters that have &lt;a href="https://azure.microsoft.com/en-us/blog/bringing-hybrid-cloud-java-and-spring-apps-to-azure-and-azure-stack/"&gt;been listed on the Spring Initializr&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Dan Newton looks at how to configure startup and shutdown &lt;a href="https://lankydanblog.com/2017/12/03/startup-and-shutdown-scripts-in-spring-data-cassandra/"&gt;scripts for Spring Data Cassandra&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring community legend and Okta advocate Matt Raible looks at how to build a CRUD &lt;a href="https://developer.okta.com/blog/2017/12/04/basic-crud-angular-and-spring-boot"&gt;application with Angular 5.0 and Spring boot 2.0&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;</content>
   </entry>
 </feed>

@@ -71,8 +71,8 @@ public class ManejadorDateAPI {
 	
 	public void saveNewDate(){
 		String line;
-		try(FileWriter fw= new FileWriter(f,false)) {
-			fw.write(dateFormatEnArchivo.format(getFechaHastaSales()));
+		try(FileWriter fw= new FileWriter(f,false)) {			
+			fw.write(getFechaHastaSales());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

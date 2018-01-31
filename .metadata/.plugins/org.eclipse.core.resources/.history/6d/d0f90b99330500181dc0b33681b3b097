@@ -34,7 +34,6 @@ public class Principal {
     		RecEntAct.getInstance().getCep().mostrarConfiguracion();
 	    	integrarDeservicioAServicio();
 	    }
-    	ManejadorDateAPI.getInstance().saveNewDate();
 	}
 
 
