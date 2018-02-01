@@ -25,6 +25,8 @@ public class ManejadorDateAPI {
 	private File f= new File(ConstantesGenerales.PATH_HORA_ULTIMA_EJECUCION);
 	private File husoHorario= new File(ConstantesGenerales.PATH_HUSO_HORARIO);
 	private SimpleDateFormat dateFormatEnArchivo=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private DateFormat dateFormatYears = new SimpleDateFormat("yyyy-MM-dd");
+	private DateFormat dateFormatTime = new SimpleDateFormat("HH:mm:ss");
 	private final long HOURS = 60L * 60L * 1000L;
 
 	private ManejadorDateAPI(){
@@ -35,6 +37,7 @@ public class ManejadorDateAPI {
 			fechaHasta = new Date(fechaHasta.getTime() + (readHusoHorario() * HOURS));
 			initFechaHastaSales();
 			initFechaDesdeService(fechaDesde);
+			initFechaDesdeSales(fechaDesde);
 			initFechaHastaService();
 		}
 	}
@@ -70,45 +73,41 @@ public class ManejadorDateAPI {
 	
 	
 	public void saveNewDate(){
-		String line;
 		try(FileWriter fw= new FileWriter(f,false)) {
-			fw.write(dateFormatEnArchivo.format(getFechaHastaSales()));
+			fw.write(getFechaGuardar());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	private String getFechaGuardar(){
+		return dateFormatYears.format(this.fechaHasta)+" "+dateFormatTime.format(this.fechaHasta);
+	}
+	
 
 	private void initFechaHastaSales() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
-		this.fechaHastaSales=dateFormat.format(this.fechaHasta)+"T"+dateFormat2.format(this.fechaHasta)+"%2B00:00";
+		this.fechaHastaSales=dateFormatYears.format(this.fechaHasta)+"T"+dateFormatTime.format(this.fechaHasta)+"%2B00:00";
 	}
 	
 	private void initFechaDesdeSales(String line){
 		Date date;
 		try {
 			date = dateFormatEnArchivo.parse(line);
-			DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dateFormat3 = new SimpleDateFormat("HH:mm:ss");
-			this.fechaDesdeSales=dateFormat2.format(date)+"T"+dateFormat3.format(date)+"%2B00:00";
+			this.fechaDesdeSales=dateFormatYears.format(date)+"T"+dateFormatTime.format(date)+"%2B00:00";
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	private void initFechaHastaService() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
-		this.fechaHastaService=dateFormat.format(this.fechaHasta)+"T"+dateFormat2.format(this.fechaHasta)+"Z";
+		this.fechaHastaService=dateFormatYears.format(this.fechaHasta)+"T"+dateFormatTime.format(this.fechaHasta)+"Z";
 	}
 	
 	private void initFechaDesdeService(String line){
 		Date date;
 		try {
 			date = dateFormatEnArchivo.parse(line);
-			DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dateFormat3 = new SimpleDateFormat("HH:mm:ss");
-			this.fechaDesdeService=dateFormat2.format(date)+"T"+dateFormat3.format(date)+"Z";
+			this.fechaDesdeService=dateFormatYears.format(date)+"T"+dateFormatTime.format(date)+"Z";
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -119,6 +118,9 @@ public class ManejadorDateAPI {
 		System.out.println(ManejadorDateAPI.getInstance().getFechaHastaService());
 		System.out.println(ManejadorDateAPI.getInstance().getFechaDesdeSales());
 		System.out.println(ManejadorDateAPI.getInstance().getFechaHastaSales());
+		ManejadorDateAPI.getInstance().saveNewDate();
+		
+		
 	}
 	
 	public String getFechaDesdeSales() {
